@@ -8,7 +8,7 @@ let b = 1;
 
 a++;
 
-// Only change code below this line
+// Only change code below this line.
 
 let sumAB = a + b;
 
