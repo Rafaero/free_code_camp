@@ -1,6 +1,6 @@
 **O console.log()método, que "imprime" a saída do que está entre parênteses no console, provavelmente será a ferramenta de depuração mais útil. Colocá-lo em pontos estratégicos em seu código pode mostrar os valores intermediários das variáveis. É uma boa prática ter uma ideia de como deve ser a saída antes de analisá-la. Ter pontos de verificação para ver o status de seus cálculos em todo o código ajudará a identificar onde está o problema.**
 
-**Use o console.log() método para imprimir o valor da variável aonde anotado no código...**
+**Use o console.log() método para imprimir o valor da variável aonde anotado no código....**
 
 let a = 5;
 
