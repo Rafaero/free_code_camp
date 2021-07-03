@@ -1175,3 +1175,120 @@ return (
 }
 
 };
+
+**Use o estado para alternar um elemento**
+
+**Às vezes, você pode precisar saber o estado anterior ao atualizar o estado. No entanto, as atualizações de estado podem ser assíncronas - isso significa que o React pode agrupar várias `setState()`chamadas em uma única atualização. Isso significa que você não pode confiar no valor anterior `this.state`ou `this.props`ao calcular o próximo valor. Portanto, você não deve usar um código como este:**
+
+```
+this.setState({
+  counter: this.state.counter + this.props.increment
+});
+
+```
+
+**Em vez disso, você deve passar `setState`uma função que permite acessar o estado e os adereços. Usar uma função com `setState`garantias de que você está trabalhando com os valores mais atuais de estado e adereços. Isso significa que o texto acima deve ser reescrito como:**
+
+```
+this.setState((state, props) => ({
+  counter: state.counter + props.increment
+}));
+
+```
+
+**Você também pode usar um formulário sem `props`se precisar apenas de `state`:**
+
+```
+this.setState(state => ({
+  counter: state.counter + 1
+}));
+
+```
+
+**Observe que você deve envolver o literal do objeto entre parênteses, caso contrário, o JavaScript pensará que é um bloco de código.**
+
+---
+
+`**MyComponent`tem uma `visibility`propriedade que é inicializada com `false`. O método render retorna uma visão se o valor de `visibility`for verdadeiro e uma visão diferente se for falso.**
+
+**Atualmente, não há como atualizar a `visibility`propriedade nos componentes `state`. O valor deve alternar entre verdadeiro e falso. Há um manipulador de cliques no botão que aciona um método de classe chamado `toggleVisibility()`. Passe uma função para `setState`definir este método para que o `state`de `visibility`alterne para o valor oposto quando o método for chamado. Se `visibility`for `false`, o método o definirá como `true`e vice-versa.**
+
+**Por fim, clique no botão para ver a renderização condicional do componente com base nele `state`.**
+
+**Dica: não se esqueça de vincular a `this`palavra-chave ao método no `constructor`!**
+
+class MyComponent extends React.Component {
+
+constructor(props) {
+
+super(props);
+
+this.state = {
+
+visibility: false
+
+};
+
+// Change code below this line
+
+this.toggleVisibility = this.toggleVisibility.bind(this);
+
+// Change code above this line
+
+}
+
+// Change code below this line
+
+toggleVisibility(){
+
+this.setState(state => {
+
+if(state.visibility == true){
+
+return {visibility: false}
+
+}else{
+
+return {visibility: true}
+
+}
+
+})
+
+}
+
+// Change code above this line
+
+render() {
+
+if (this.state.visibility) {
+
+return (
+
+<div>
+
+<button onClick={this.toggleVisibility}>Click Me</button>
+
+<h1>Now you see me!</h1>
+
+</div>
+
+);
+
+} else {
+
+return (
+
+<div>
+
+<button onClick={this.toggleVisibility}>Click Me</button>
+
+</div>
+
+);
+
+}
+
+}
+
+}
