@@ -1292,3 +1292,1636 @@ return (
 }
 
 }
+
+**Escreva um Contador Simples**
+
+**Você pode projetar um componente com monitoração de estado mais complexo combinando os conceitos abordados até agora. Isso inclui inicialização `state`, gravação de métodos que definem `state`e atribuição de manipuladores de clique para acionar esses métodos.**
+
+---
+
+**O `Counter`componente rastreia um `count`valor em `state`. Existem dois botões que chamam métodos `increment()`e `decrement()`. Escreva esses métodos de forma que o valor do contador seja incrementado ou diminuído em 1 quando o botão apropriado for clicado. Além disso, crie um `reset()`método para que quando o botão de redefinição for clicado, a contagem seja definida como 0.**
+
+**Nota: Certifique-se de não modificar os `className`s dos botões. Além disso, lembre-se de adicionar as ligações necessárias para os métodos recém-criados no construtor.**
+
+class Counter extends React.Component {
+
+constructor(props) {
+
+super(props);
+
+this.state = {
+
+count: 0
+
+};
+
+this.increment = this.increment.bind(this);
+
+this.decrement = this.decrement.bind(this);
+
+this.reset = this.reset.bind(this);
+
+}
+
+reset() {
+
+this.setState({
+
+count: 0
+
+});
+
+}
+
+increment() {
+
+this.setState(state => ({
+
+count: state.count + 1
+
+}));
+
+}
+
+decrement() {
+
+this.setState(state => ({
+
+count: state.count - 1
+
+}));
+
+}
+
+render() {
+
+return (
+
+<div>
+
+<button className='inc' onClick={this.increment}>Increment!</button>
+
+<button className='dec' onClick={this.decrement}>Decrement!</button>
+
+<button className='reset' onClick={this.reset}>Reset</button>
+
+<h1>Current Count: {this.state.count}</h1>
+
+</div>
+
+);
+
+}
+
+};
+
+**Crie uma entrada controlada**
+
+**Seu aplicativo pode ter interações mais complexas entre `state`e a IU renderizada. Por exemplo, elementos de controle de formulário para entrada de texto, como `input`e `textarea`, mantêm seu próprio estado no DOM conforme o usuário digita. Com o React, você pode mover esse estado mutável para o de um componente React `state`. A entrada do usuário torna-se parte do aplicativo `state`, portanto, o React controla o valor desse campo de entrada. Normalmente, se você tiver componentes React com campos de entrada nos quais o usuário pode digitar, será um formulário de entrada controlado.**
+
+---
+
+**O editor de código possui o esqueleto de um componente chamado `ControlledInput`para criar um `input`elemento controlado . O do componente `state`já foi inicializado com uma `input`propriedade que contém uma string vazia. Este valor representa o texto que um usuário digita no `input`campo.**
+
+**Primeiro, crie um método chamado `handleChange()`que tenha um parâmetro chamado `event`. Quando o método é chamado, ele recebe um `event`objeto que contém uma string de texto do `input`elemento. Você pode acessar essa string com `event.target.value`dentro do método. Atualize a `input`propriedade do componente `state`com esta nova string.**
+
+**No `render`método, crie o `input`elemento acima da `h4`tag. Adicione um `value`atributo que seja igual à `input`propriedade do componente `state`. Em seguida, adicione um `onChange()`manipulador de eventos definido para o `handleChange()`método.**
+
+**Quando você digita na caixa de entrada, esse texto é processado pelo `handleChange()`método, definido como a `input`propriedade no local `state`e processado como o valor na `input`caixa na página. O componente `state`é a única fonte de verdade sobre os dados de entrada.**
+
+**Por último, mas não menos importante, não se esqueça de adicionar as ligações necessárias no construtor.**
+
+---
+
+class ControlledInput extends React.Component {
+
+constructor(props) {
+
+super(props);
+
+this.state = {
+
+input: ''
+
+};
+
+// Change code below this line
+
+this.handleChange = this.handleChange.bind(this)
+
+// Change code above this line
+
+}
+
+// Change code below this line
+
+handleChange(event){
+
+this.setState({
+
+input : event.target.value
+
+})
+
+}
+
+// Change code above this line
+
+render() {
+
+return (
+
+<div>
+
+{ /* Change code below this line */}
+
+<input value={this.state.input} onChange={this.handleChange}/>
+
+{ /* Change code above this line */}
+
+<h4>Controlled Input:</h4>
+
+<p>{this.state.input}</p>
+
+</div>
+
+);
+
+}
+
+};
+
+**Crie um formulário controlado**
+
+**O último desafio mostrou que o React pode controlar o estado interno de certos elementos como `input`e `textarea`, o que os torna componentes controlados. Isso se aplica a outros elementos de formulário também, incluindo o `form`elemento HTML regular .**
+
+---
+
+**O `MyForm`componente é configurado com um vazio `form`com um manipulador de envio. O manipulador de envio será chamado quando o formulário for enviado.**
+
+**Adicionamos um botão que envia o formulário. Você pode ver que ele está `type`configurado para `submit`indicar que é o botão que controla o formulário. Adicione o `input`elemento no `form`e defina seus atributos `value`e `onChange()`como o último desafio. Você deve então completar o `handleSubmit`método para que ele defina a propriedade de estado do componente `submit`para o valor de entrada atual no local `state`.**
+
+**Nota: Você também deve chamar `event.preventDefault()`o manipulador de envio, para evitar o comportamento de envio de formulário padrão que atualizará a página da web. Para conveniência do campista, o comportamento padrão foi desabilitado aqui para evitar que as atualizações redefinam o código de desafio.**
+
+**Finalmente, crie uma `h1`tag após a `form`qual renderiza o `submit`valor do componente `state`. Você pode então digitar o formulário e clicar no botão (ou pressionar enter) e deverá ver sua entrada renderizada na página.**
+
+class MyForm extends React.Component {
+
+constructor(props) {
+
+super(props);
+
+this.state = {
+
+input: '',
+
+submit: ''
+
+};
+
+this.handleChange = this.handleChange.bind(this);
+
+this.handleSubmit = this.handleSubmit.bind(this);
+
+}
+
+handleChange(event) {
+
+this.setState({
+
+input: event.target.value
+
+});
+
+}
+
+handleSubmit(event) {
+
+// Change code below this line
+
+event.preventDefault()
+
+this.setState({
+
+submit: this.state.input
+
+})
+
+// Change code above this line
+
+}
+
+render() {
+
+return (
+
+<div>
+
+<form onSubmit={this.handleSubmit}>
+
+{/* Change code below this line */}
+
+<input value={this.state.input} onChange={this.handleChange}/>
+
+{/* Change code above this line */}
+
+<button type='submit'>Submit!</button>
+
+</form>
+
+{/* Change code below this line */}
+
+<h1>{this.state.submit}</h1>
+
+{/* Change code above this line */}
+
+</div>
+
+);
+
+}
+
+}
+
+**Passe o estado como suporte para componentes filhos**
+
+**Você viu muitos exemplos que passaram adereços para elementos filhos JSX e componentes filhos React em desafios anteriores. Você pode estar se perguntando de onde vêm esses acessórios. Um padrão comum é ter um componente com monitoração de estado contendo o que é `state`importante para seu aplicativo, que então renderiza os componentes filhos. Você deseja que esses componentes tenham acesso a algumas partes disso `state`, que são passadas como adereços.**
+
+**Por exemplo, talvez você tenha um `App`componente que renderiza um `Navbar`, entre outros componentes. No seu `App`, você tem `state`que contém muitas informações do usuário, mas `Navbar`só precisa acessar o nome de usuário do usuário para que possa exibi-lo. Você passa essa peça `state`para o `Navbar`componente como um suporte.**
+
+**Este padrão ilustra alguns paradigmas importantes no React. O primeiro é o *fluxo de dados unidirecional*. O estado flui em uma direção para baixo na árvore dos componentes do seu aplicativo, do componente pai com estado para os componentes filhos. Os componentes filhos recebem apenas os dados de estado de que precisam. A segunda é que aplicativos complexos com estado podem ser divididos em apenas alguns, ou talvez em um único componente com estado. O resto de seus componentes simplesmente recebem o estado do pai como adereços e renderizam uma IU a partir desse estado. Ele começa a criar uma separação onde o gerenciamento de estado é tratado em uma parte do código e a renderização da IU em outra. Este princípio de separar a lógica de estado da lógica da IU é um dos princípios-chave do React. Quando usado corretamente, torna o design de aplicativos complexos e com estado muito mais fácil de gerenciar.**
+
+---
+
+**O `MyApp`componente tem estado e renderiza um `Navbar`componente como filho. Passe a `name`propriedade `state`para o componente filho e, em seguida, mostre `name`na `h1`tag que faz parte do `Navbar`método de renderização. `name`deve aparecer após o texto `Hello, my name is:`.**
+
+class MyApp extends React.Component {
+
+constructor(props) {
+
+super(props);
+
+this.state = {
+
+name: 'CamperBot'
+
+}
+
+}
+
+render() {
+
+return (
+
+<div>
+
+{/* Change code below this line */}
+
+<Navbar name={this.state.name}/>
+
+{/* Change code above this line */}
+
+</div>
+
+);
+
+}
+
+};
+
+class Navbar extends React.Component {
+
+constructor(props) {
+
+super(props);
+
+}
+
+render() {
+
+return (
+
+<div>
+
+{/* Change code below this line */}
+
+<h1>Hello, my name is:{this.props.name} </h1>
+
+{/* Change code above this line */}
+
+</div>
+
+);
+
+}
+
+};
+
+**Passe um retorno de chamada como suporte**
+
+**Você pode passar `state`como adereços para componentes filhos, mas não está limitado a passar dados. Você também pode passar funções de manipulador ou qualquer método definido em um componente React para um componente filho. É assim que você permite que componentes filhos interajam com seus componentes pais. Você passa métodos para uma criança como um adereço normal. É atribuído um nome e você tem acesso a esse nome de método `this.props`no componente filho.**
+
+---
+
+**Existem três componentes descritos no editor de código. O `MyApp`componente é o pai que irá processar os `GetInput`e `RenderInput`criança componentes. Adicione o `GetInput`componente ao método de renderização e, em `MyApp`seguida, passe a ele um prop chamado `input`atribuído a `inputValue`de `MyApp`de `state`. Crie também um prop chamado `handleChange`e passe o manipulador de entrada `handleChange`para ele.**
+
+**Em seguida, adicione `RenderInput`ao método de renderização em `MyApp`, crie um prop chamado `input`e passe o `inputValue`de `state`para ele. Assim que terminar, você poderá digitar no `input`campo do `GetInput`componente, que então chama o método manipulador em seu pai por meio de props. Isso atualiza a entrada no `state`do pai, que é passada como adereços para ambos os filhos. Observe como os dados fluem entre os componentes e como a única fonte da verdade permanece como `state`o componente pai. É certo que este exemplo é um pouco artificial, mas deve servir para ilustrar como os dados e os retornos de chamada podem ser passados entre os componentes do React.**
+
+class MyApp extends React.Component {
+
+constructor(props) {
+
+super(props);
+
+this.state = {
+
+inputValue: ''
+
+}
+
+this.handleChange = this.handleChange.bind(this);
+
+}
+
+handleChange(event) {
+
+this.setState({
+
+inputValue: event.target.value
+
+});
+
+}
+
+render() {
+
+return (
+
+<div>
+
+{ /* Change code below this line */ }
+
+<GetInput input={this.state.inputValue}
+
+handleChange={this.handleChange} />
+
+<RenderInput input={this.state.inputValue} />
+
+{ /* Change code above this line */ }
+
+</div>
+
+);
+
+}
+
+};
+
+class GetInput extends React.Component {
+
+constructor(props) {
+
+super(props);
+
+}
+
+render() {
+
+return (
+
+<div>
+
+<h3>Get Input:</h3>
+
+<input
+
+value={this.props.input}
+
+onChange={this.props.handleChange}/>
+
+</div>
+
+);
+
+}
+
+};
+
+class RenderInput extends React.Component {
+
+constructor(props) {
+
+super(props);
+
+}
+
+render() {
+
+return (
+
+<div>
+
+<h3>Input Render:</h3>
+
+<p>{this.props.input}</p>
+
+</div>
+
+);
+
+}
+
+};
+
+**Use o Lifecycle Method componentWillMount**
+
+Os componentes React têm vários métodos especiais que fornecem oportunidades para executar ações em pontos específicos do ciclo de vida de um componente. Eles são chamados de métodos de ciclo de vida, ou ganchos de ciclo de vida, e permitem capturar componentes em determinados momentos. Isso pode ser antes de serem renderizados, antes de atualizarem, antes de receberem acessórios, antes de desmontarem e assim por diante. Aqui está uma lista de alguns dos principais métodos de ciclo de vida: `componentWillMount()` `componentDidMount()` `shouldComponentUpdate()` `componentDidUpdate()` `componentWillUnmount()`As próximas lições cobrirão alguns dos casos de uso básicos para esses métodos de ciclo de vida.
+
+**Observação:** o `componentWillMount`método de ciclo de vida será descontinuado em uma versão futura de 16.X e removido na versão 17. [(fonte)](https://reactjs.org/blog/2018/03/27/update-on-async-rendering.html)
+
+---
+
+O `componentWillMount()`método é chamado antes do `render()`método quando um componente está sendo montado no DOM. Registre algo no console `componentWillMount()`interno - você pode querer que o console do seu navegador seja aberto para ver o resultado.
+
+class MyComponent extends React.Component {
+
+constructor(props) {
+
+super(props);
+
+}
+
+componentWillMount() {
+
+// Change code below this line
+
+console.log(<div>algo qualquer</div>)
+
+// Change code above this line
+
+}
+
+render() {
+
+return <div />
+
+}
+
+};
+
+**Use o Lifecycle Method componentDidMount**
+
+**A maioria dos desenvolvedores da web, em algum ponto, precisa chamar um endpoint de API para recuperar dados. Se você estiver trabalhando com o React, é importante saber onde executar essa ação.**
+
+**A prática recomendada com React é colocar chamadas de API ou quaisquer chamadas para seu servidor no método de ciclo de vida `componentDidMount()`. Este método é chamado depois que um componente é montado no DOM. Qualquer chamada para `setState()`aqui irá disparar uma nova renderização do seu componente. Quando você chama uma API neste método e define seu estado com os dados que a API retorna, ela acionará automaticamente uma atualização assim que você receber os dados.**
+
+---
+
+**Há uma chamada de API simulada em `componentDidMount()`. Ele define o estado após 2,5 segundos para simular a chamada de um servidor para recuperar dados. Este exemplo solicita o total de usuários ativos atuais para um site. No método de renderização, renderize o valor de `activeUsers`no `h1`após o texto `Active Users:`. Observe o que acontece na visualização e fique à vontade para alterar o tempo limite para ver os diferentes efeitos.**
+
+class MyComponent extends React.Component {
+
+constructor(props) {
+
+super(props);
+
+this.state = {
+
+activeUsers: null
+
+};
+
+}
+
+componentDidMount() {
+
+setTimeout(() => {
+
+this.setState({
+
+activeUsers: 1273
+
+});
+
+}, 2500);
+
+}
+
+render() {
+
+return (
+
+<div>
+
+{/* Change code below this line */}
+
+<h1>Active Users: activeUsers={this.state.activeUsers}</h1>
+
+{/* Change code above this line */}
+
+</div>
+
+);
+
+}
+
+}
+
+**Adicionar ouvintes de eventos**
+
+**O `componentDidMount()`método também é o melhor lugar para anexar qualquer ouvinte de evento que você precise adicionar para uma funcionalidade específica. O React fornece um sistema de eventos sintéticos que envolve o sistema de eventos nativo presente nos navegadores. Isso significa que o sistema de eventos sintéticos se comporta exatamente da mesma forma, independentemente do navegador do usuário - mesmo que os eventos nativos possam se comportar de maneira diferente entre navegadores diferentes.**
+
+**Você já está usando alguns desses manipuladores de eventos sintéticos, como `onClick()`. O sistema de eventos sintéticos do React é ótimo para usar na maioria das interações que você gerenciará em elementos DOM. No entanto, se você deseja anexar um manipulador de eventos aos objetos de documento ou janela, você deve fazer isso diretamente.**
+
+---
+
+**Anexe um ouvinte de evento no `componentDidMount()`método para `keydown`eventos e faça com que esses eventos acionem o retorno de chamada `handleKeyPress()`. Você pode usar o `document.addEventListener()`que leva o evento (entre aspas) como o primeiro argumento e o retorno de chamada como o segundo argumento.**
+
+**Em seguida, `componentWillUnmount()`remova esse mesmo ouvinte de evento. Você pode passar os mesmos argumentos para `document.removeEventListener()`. É uma boa prática usar este método de ciclo de vida para fazer qualquer limpeza nos componentes do React antes que eles sejam desmontados e destruídos. A remoção de ouvintes de eventos é um exemplo de uma dessas ações de limpeza.**
+
+---
+
+class MyComponent extends React.Component {
+
+constructor(props) {
+
+super(props);
+
+this.state = {
+
+message: ''
+
+};
+
+this.handleEnter = this.handleEnter.bind(this);
+
+this.handleKeyPress = this.handleKeyPress.bind(this);
+
+}
+
+// Change code below this line
+
+componentDidMount() {
+
+document.addEventListener("keydown", this.handleKeyPress)
+
+}
+
+componentWillUnmount() {
+
+document.removeEventListener("keydown", this.handleKeyPress)
+
+}
+
+// Change code above this line
+
+handleEnter() {
+
+this.setState((state) => ({
+
+message: state.message + 'You pressed the enter key! '
+
+}));
+
+}
+
+handleKeyPress(event) {
+
+if (event.keyCode === 13) {
+
+this.handleEnter();
+
+}
+
+}
+
+render() {
+
+return (
+
+<div>
+
+<h1>{this.state.message}</h1>
+
+</div>
+
+);
+
+}
+
+};
+
+**Otimize as novas renderizações com shouldComponentUpdate**
+
+**Até agora, se algum componente receber novo `state`ou novo `props`, ele renderizará novamente a si mesmo e a todos os seus filhos. Isso geralmente está bem. Mas o React fornece um método de ciclo de vida que você pode chamar quando os componentes filhos recebem um novo `state`ou `props`, e declara especificamente se os componentes devem ser atualizados ou não. O método é `shouldComponentUpdate()`, e leva `nextProps`e `nextState`como parâmetros.**
+
+**Este método é uma forma útil de otimizar o desempenho. Por exemplo, o comportamento padrão é que seu componente seja renderizado novamente quando receber novo `props`, mesmo que `props`não tenha mudado. Você pode usar `shouldComponentUpdate()`para evitar isso comparando o `props`. O método deve retornar um `boolean`valor que diga ao React se deve ou não atualizar o componente. Você pode comparar os adereços atuais ( `this.props`) com os próximos adereços ( `nextProps`) para determinar se você precisa atualizar ou não, e retornar `true`ou de `false`acordo.**
+
+---
+
+**O `shouldComponentUpdate()`método é adicionado em um componente chamado `OnlyEvens`. Atualmente, esse método retorna, `true`portanto `OnlyEvens`, é renderizado novamente toda vez que recebe um novo `props`. Modifique o método para que seja `OnlyEvens`atualizado apenas se o número `value`de seus novos adereços for uniforme. Clique no `Add`botão e observe a ordem dos eventos no console do seu navegador à medida que os ganchos do ciclo de vida são acionados.**
+
+class OnlyEvens extends React.Component {
+
+constructor(props) {
+
+super(props);
+
+}
+
+shouldComponentUpdate(nextProps, nextState) {
+
+console.log('Should I update?');
+
+// Change code below this line
+
+if(nextProps.value %2 === 0){
+
+return <h1>nextState={this.props.value}</h1>
+
+}
+
+// Change code above this line
+
+}
+
+componentDidUpdate() {
+
+console.log('Component re-rendered.');
+
+}
+
+render() {
+
+return <h1>{this.props.value}</h1>;
+
+}
+
+}
+
+class Controller extends React.Component {
+
+constructor(props) {
+
+super(props);
+
+this.state = {
+
+value: 0
+
+};
+
+this.addValue = this.addValue.bind(this);
+
+}
+
+addValue() {
+
+this.setState(state => ({
+
+value: state.value + 1
+
+}));
+
+}
+
+render() {
+
+return (
+
+<div>
+
+<button onClick={this.addValue}>Add</button>
+
+<OnlyEvens value={this.state.value} />
+
+</div>
+
+);
+
+}
+
+}
+
+**Apresentando Estilos Inline**
+
+**Existem outros conceitos complexos que adicionam recursos poderosos ao seu código React. Mas você pode estar se perguntando sobre o problema mais simples de como estilizar os elementos JSX que você cria no React. Você provavelmente sabe que não será exatamente o mesmo que trabalhar com HTML por causa da [maneira como você aplica classes a elementos JSX](https://www.freecodecamp.org/learn/front-end-libraries/react/define-an-html-class-in-jsx) .**
+
+**Se você importar estilos de uma folha de estilo, não será muito diferente. Você aplica uma classe ao seu elemento JSX usando o `className`atributo e aplica estilos à classe em sua folha de estilo. Outra opção é aplicar estilos embutidos, que são muito comuns no desenvolvimento do ReactJS.**
+
+**Você aplica estilos embutidos a elementos JSX de maneira semelhante à forma como o faz em HTML, mas com algumas diferenças de JSX. Aqui está um exemplo de um estilo embutido em HTML:**
+
+```
+<div style="color: yellow; font-size: 16px">Mellow Yellow</div>
+
+```
+
+**Os elementos JSX usam o `style`atributo, mas devido à maneira como o JSX é transpilado, você não pode definir o valor como a `string`. Em vez disso, você o define igual a um JavaScript `object`. Aqui está um exemplo:**
+
+```
+<div style={{color: "yellow", fontSize: 16}}>Mellow Yellow</div>
+
+```
+
+**Percebeu como colocamos camelCase na `fontSize`propriedade? Isso ocorre porque o React não aceitará chaves caso kebab no objeto de estilo. O React aplicará o nome de propriedade correto para nós no HTML.**
+
+---
+
+**Adicione um `style`atributo ao `div`no editor de código para dar ao texto a cor vermelha e o tamanho da fonte `72px`.**
+
+**Observe que você pode, opcionalmente, definir o tamanho da fonte como um número, omitindo as unidades `px`, ou escrevê-lo como `72px`.**
+
+class Colorful extends React.Component {
+
+render() {
+
+return (
+
+<div style={{color: "red", fontSize: 72}}>Big Red</div>
+
+);
+
+}
+
+};
+
+**Adicionar estilos embutidos no React**
+
+**Você deve ter notado no último desafio que havia várias outras diferenças de sintaxe de estilos embutidos de HTML, além do `style`atributo definido para um objeto JavaScript. Primeiro, os nomes de certas propriedades de estilo CSS usam caixa de camelo. Por exemplo, o último desafio definiu o tamanho da fonte com em `fontSize`vez de `font-size`. Palavras hifenizadas como `font-size`são sintaxe inválida para propriedades de objetos JavaScript, portanto, o React usa maiúsculas e minúsculas. Como regra, todas as propriedades de estilo hifenizadas são escritas com maiúsculas e minúsculas em JSX.**
+
+**Todas as unidades de comprimento de valor de propriedade (como `height`, `width`e `fontSize`) são consideradas in, a `px`menos que especificado de outra forma. Se você quiser usar `em`, por exemplo, coloque o valor e as unidades entre aspas, como `{fontSize: "4em"}`. Além dos valores de comprimento que são padronizados `px`, todos os outros valores de propriedade devem ser colocados entre aspas.**
+
+---
+
+**Se você tiver um grande conjunto de estilos, poderá atribuir um estilo `object`a uma constante para manter seu código organizado. Declare sua constante de estilo como uma variável global na parte superior do arquivo. Inicialize a `styles`constante e atribua um `object`com três propriedades de estilo e seus valores a ele. Forneça `div`uma cor de `purple`, um tamanho de fonte `40`e uma borda de `2px solid purple`. Em seguida, defina o `style`atributo igual à `styles`constante.**
+
+const styles = {color: "purple", fontSize: 40, border: "2px solid purple"}
+
+// Change code above this line
+
+class Colorful extends React.Component {
+
+render() {
+
+// Change code below this line
+
+return (
+
+<div style={styles}>Style Me!</div>
+
+);
+
+// Change code above this line
+
+}
+
+};
+
+**Use JavaScript avançado no método React Render**
+
+**Em desafios anteriores, você aprendeu como injetar código JavaScript no código JSX usando chaves, `{ }`para tarefas como acessar adereços, passar adereços, acessar estado, inserir comentários em seu código e, mais recentemente, estilizar seus componentes. Todos esses são casos de uso comuns para colocar JavaScript em JSX, mas não são a única maneira de utilizar o código JavaScript em seus componentes React.**
+
+**Você também pode escrever JavaScript diretamente em seus `render`métodos, antes da `return`instrução, *sem* inseri-lo entre chaves. Isso ocorre porque ele ainda não está no código JSX. Quando você quiser usar uma variável posteriormente no código JSX *dentro* da `return`instrução, coloque o nome da variável entre chaves.**
+
+---
+
+**No código fornecido, o `render`método tem uma matriz que contém 20 frases para representar as respostas encontradas no clássico brinquedo Magic Eight Ball dos anos 80. O evento de clique do botão está vinculado ao `ask`método, portanto, cada vez que o botão for clicado, um número aleatório será gerado e armazenado como o `randomIndex`estado ativo. Na linha 52, exclua a string `change me!`e reatribua a `answer`const para que seu código acesse aleatoriamente um índice diferente da `possibleAnswers`matriz cada vez que o componente for atualizado. Finalmente, insira o `answer`const dentro das `p`tags.**
+
+const inputStyle = {
+
+width: 235,
+
+margin: 5
+
+};
+
+class MagicEightBall extends React.Component {
+
+constructor(props) {
+
+super(props);
+
+this.state = {
+
+userInput: '',
+
+randomIndex: ''
+
+};
+
+this.ask = this.ask.bind(this);
+
+this.handleChange = this.handleChange.bind(this);
+
+}
+
+ask() {
+
+if (this.state.userInput) {
+
+this.setState({
+
+randomIndex: Math.floor(Math.random() * 20),
+
+userInput: ''
+
+});
+
+}
+
+}
+
+handleChange(event) {
+
+this.setState({
+
+userInput: event.target.value
+
+});
+
+}
+
+render() {
+
+const possibleAnswers = [
+
+'It is certain',
+
+'It is decidedly so',
+
+'Without a doubt',
+
+'Yes, definitely',
+
+'You may rely on it',
+
+'As I see it, yes',
+
+'Outlook good',
+
+'Yes',
+
+'Signs point to yes',
+
+'Reply hazy try again',
+
+'Ask again later',
+
+'Better not tell you now',
+
+'Cannot predict now',
+
+'Concentrate and ask again',
+
+"Don't count on it",
+
+'My reply is no',
+
+'My sources say no',
+
+'Most likely',
+
+'Outlook not so good',
+
+'Very doubtful'
+
+];
+
+const answer = possibleAnswers[this.state.randomIndex]; // Change this line
+
+return (
+
+<div>
+
+<input
+
+type='text'
+
+value={this.state.userInput}
+
+onChange={this.handleChange}
+
+style={inputStyle}
+
+/>
+
+<br />
+
+<button onClick={this.ask}>Ask the Magic Eight Ball!</button>
+
+<br />
+
+<h3>Answer:</h3>
+
+<p>
+
+{/* Change code below this line */}
+
+{answer}
+
+{/* Change code above this line */}
+
+</p>
+
+</div>
+
+);
+
+}
+
+}
+
+**Renderizar com uma condição If-Else**
+
+**Outra aplicação do uso de JavaScript para controlar sua visualização renderizada é vincular os elementos que são renderizados a uma condição. Quando a condição é verdadeira, uma visualização é renderizada. Quando é falso, é uma visão diferente. Você pode fazer isso com uma `if/else`instrução padrão no `render()`método de um componente React.**
+
+---
+
+**MyComponent contém um `boolean`em seu estado que rastreia se você deseja exibir algum elemento na IU ou não. O `button`alterna o estado desse valor. Atualmente, ele renderiza a mesma IU sempre. Reescreva o `render()`método com uma `if/else`instrução para que, se `display`for `true`, você retorne a marcação atual. Caso contrário, retorne a marcação sem o `h1`elemento.**
+
+**Observação: você deve escrever um `if/else`para passar nos testes. O uso do operador ternário não vai passar aqui.**
+
+class MyComponent extends React.Component {
+
+constructor(props) {
+
+super(props);
+
+this.state = {
+
+display: true
+
+}
+
+this.toggleDisplay = this.toggleDisplay.bind(this);
+
+}
+
+toggleDisplay() {
+
+this.setState((state) => ({
+
+display: !state.display
+
+}));
+
+}
+
+render() {
+
+// Change code below this line
+
+if(this.state.display == true){
+
+return (
+
+<div>
+
+<button onClick={this.toggleDisplay}>Toggle Display</button>
+
+<h1>Displayed!</h1>
+
+</div>
+
+);
+
+}else{
+
+return (
+
+<div>
+
+<button onClick={this.toggleDisplay}>Toggle Display</button>
+
+</div>
+
+);
+
+}
+
+}
+
+};
+
+**Use && para uma condicional mais concisa**
+
+**As `if/else`afirmações funcionaram no último desafio, mas existe uma forma mais concisa de chegar ao mesmo resultado. Imagine que você está rastreando várias condições em um componente e deseja que diferentes elementos sejam renderizados, dependendo de cada uma dessas condições. Se você escrever muitas `else if`instruções para retornar interfaces de usuário ligeiramente diferentes, poderá repetir o código, o que deixa espaço para erros. Em vez disso, você pode usar o `&&`operador lógico para executar a lógica condicional de uma forma mais concisa. Isso é possível porque você deseja verificar se uma condição é `true`e, se for, retornar alguma marcação. Aqui está um exemplo:**
+
+```
+{condition && <p>markup</p>}
+
+```
+
+**Se `condition`for `true`, a marcação será retornada. Se a condição for `false`, a operação retornará imediatamente `false`após avaliar `condition`e não retornará nada. Você pode incluir essas instruções diretamente em seu JSX e criar uma string de várias condições, escrevendo `&&`após cada uma. Isso permite que você lide com lógicas condicionais mais complexas em seu `render()`método sem repetir muito código.**
+
+---
+
+**Resolva o exemplo anterior novamente, então o `h1`único renderiza se `display`for `true`, mas use o `&&`operador lógico em vez de uma `if/else`instrução.**
+
+class MyComponent extends React.Component {
+
+constructor(props) {
+
+super(props);
+
+this.state = {
+
+display: true
+
+}
+
+this.toggleDisplay = this.toggleDisplay.bind(this);
+
+}
+
+toggleDisplay() {
+
+this.setState(state => ({
+
+display: !state.display
+
+}));
+
+}
+
+render() {
+
+// Change code below this line
+
+return (
+
+<div>
+
+<button onClick={this.toggleDisplay}>Toggle Display</button>
+
+{this.state.display && <h1>Displayed!</h1>}
+
+</div>
+
+);
+
+}
+
+};
+
+**Use uma expressão ternária para renderização condicional**
+
+**Antes de passar para as técnicas de renderização dinâmica, há uma última maneira de usar condicionais JavaScript integrados para renderizar o que você deseja: o *operador ternário* . O operador ternário é frequentemente utilizado como um atalho para `if/else`instruções em JavaScript. Eles não são tão robustos quanto as `if/else`declarações tradicionais , mas são muito populares entre os desenvolvedores do React. Uma razão para isso é como o JSX é compilado, as `if/else`instruções não podem ser inseridas diretamente no código JSX. Você deve ter notado isso alguns desafios atrás - quando uma `if/else`declaração era necessária, era sempre *fora* do`return`demonstração. Expressões ternárias podem ser uma excelente alternativa se você deseja implementar lógica condicional em seu JSX. Lembre-se de que um operador ternário tem três partes, mas você pode combinar várias expressões ternárias. Esta é a sintaxe básica:**
+
+```
+condition ? expressionIfTrue : expressionIfFalse;
+
+```
+
+---
+
+**O editor de código possui três constantes definidas no método `CheckUserAge`do componente `render()`. Eles são chamados `buttonOne`, `buttonTwo`e `buttonThree`. Cada um deles recebe uma expressão JSX simples que representa um elemento de botão. Primeiro, inicialize o estado de `CheckUserAge`with `input`e `userAge`ambos defina os valores de uma string vazia.**
+
+**Uma vez que o componente está renderizando informações para a página, os usuários devem ter uma maneira de interagir com ele. Na `return`instrução do componente , configure uma expressão ternária que implemente a seguinte lógica: quando a página for carregada pela primeira vez, renderize o botão de envio,, `buttonOne`para a página. Então, quando um usuário inserir sua idade e clicar no botão, renderize um botão diferente com base na idade. Se um usuário inserir um número menor que `18`, renderize `buttonThree`. Se um usuário inserir um número maior ou igual a `18`, renderize `buttonTwo`.**
+
+const inputStyle = {
+
+width: 235,
+
+margin: 5
+
+};
+
+class CheckUserAge extends React.Component {
+
+constructor(props) {
+
+super(props);
+
+// Change code below this line
+
+this.state = {
+
+input: "",
+
+userAge: ""
+
+}
+
+// Change code above this line
+
+this.submit = this.submit.bind(this);
+
+this.handleChange = this.handleChange.bind(this);
+
+}
+
+handleChange(e) {
+
+this.setState({
+
+input: e.target.value,
+
+userAge: ''
+
+});
+
+}
+
+submit() {
+
+this.setState(state => ({
+
+userAge: state.input
+
+}));
+
+}
+
+render() {
+
+const buttonOne = <button onClick={this.submit}>Submit</button>;
+
+const buttonTwo = <button>You May Enter</button>;
+
+const buttonThree = <button>You Shall Not Pass</button>;
+
+return (
+
+<div>
+
+<h3>Enter Your Age to Continue</h3>
+
+<input
+
+style={inputStyle}
+
+type='number'
+
+value={this.state.input}
+
+onChange={this.handleChange}
+
+/>
+
+<br />
+
+{/* Change code below this line */}
+
+{
+
+this.state.userAge === "" ?
+
+buttonOne :
+
+this.state.userAge < 18 ? buttonThree : buttonTwo
+
+}
+
+{/* Change code above this line */}
+
+</div>
+
+);
+
+}
+
+}
+
+**Renderizar condicionalmente a partir de suportes**
+
+**Até agora, você viu como usar `if/else`, `&&`e o operador ternário ( `condition ? expressionIfTrue : expressionIfFalse`) para tomar decisões condicionais sobre o que renderizar e quando. No entanto, ainda há um tópico importante a ser discutido que permite combinar qualquer um ou todos esses conceitos com outro recurso poderoso do React: adereços. Usar props para renderizar código condicionalmente é muito comum com os desenvolvedores do React - ou seja, eles usam o valor de um determinado prop para tomar decisões automaticamente sobre o que renderizar.**
+
+**Neste desafio, você configurará um componente filho para tomar decisões de renderização com base em adereços. Você também usará o operador ternário, mas poderá ver como vários dos outros conceitos abordados nos últimos desafios podem ser igualmente úteis neste contexto.**
+
+---
+
+**O editor de código tem dois componentes parcialmente definidos para você: um pai chamado `GameOfChance`e um filho chamado `Results`. Eles são usados para criar um jogo simples onde o usuário pressiona um botão para ver se ganha ou perde.**
+
+**Primeiro, você precisará de uma expressão simples que retorne aleatoriamente um valor diferente toda vez que for executada. Você pode usar `Math.random()`. Este método retorna um valor entre `0`(inclusivo) e `1`(exclusivo) cada vez que é chamado. Portanto, para probabilidades de 50/50, use `Math.random() >= .5`em sua expressão. Estatisticamente falando, essa expressão retornará `true`50% das vezes e `false`os outros 50%. No método render, substitua `null`pela expressão acima para completar a declaração da variável.**
+
+**Agora você tem uma expressão que pode usar para tomar uma decisão aleatória no código. Em seguida, você precisa implementar isso. Renderize o `Results`componente como filho de `GameOfChance`e passe `expression`como um prop chamado `fiftyFifty`. No `Results`componente, escreva uma expressão ternária para renderizar o `h1`elemento com o texto `You Win!`ou com `You Lose!`base na `fiftyFifty`prop que está sendo passada `GameOfChance`. Finalmente, certifique-se de que o `handleClick()`método está contando corretamente cada jogada para que o usuário saiba quantas vezes ele jogou. Isso também serve para informar ao usuário que o componente foi realmente atualizado, caso ganhe ou perca duas vezes consecutivas.**
+
+class Results extends React.Component {
+
+constructor(props) {
+
+super(props);
+
+}
+
+render() {
+
+{/* Change code below this line */}
+
+return <h1>
+
+{this.props.fiftyFifty ? "You Win!" : "You Lose!"}
+
+</h1>;
+
+{/* Change code above this line */}
+
+}
+
+}
+
+class GameOfChance extends React.Component {
+
+constructor(props) {
+
+super(props);
+
+this.state = {
+
+counter: 1
+
+};
+
+this.handleClick = this.handleClick.bind(this);
+
+}
+
+handleClick() {
+
+this.setState(prevState => {
+
+// Complete the return statement:
+
+return {
+
+counter: this.state.counter + 1
+
+}
+
+});
+
+}
+
+render() {
+
+const expression = Math.random() >= .5; // Change this line
+
+return (
+
+<div>
+
+<button onClick={this.handleClick}>Play Again</button>
+
+{/* Change code below this line */}
+
+<Results fiftyFifty={expression}/>
+
+{/* Change code above this line */}
+
+<p>{'Turn: ' + this.state.counter}</p>
+
+</div>
+
+);
+
+}
+
+}
+
+**Alterar CSS Inline condicionalmente com base no estado do componente**
+
+**Neste ponto, você viu vários aplicativos de renderização condicional e o uso de estilos embutidos. Aqui está mais um exemplo que combina esses dois tópicos. Você também pode renderizar CSS condicionalmente com base no estado de um componente React. Para fazer isso, você verifica se há uma condição e, se essa condição for atendida, você modifica o objeto de estilos atribuído aos elementos JSX no método de renderização.**
+
+**É importante entender esse paradigma porque é uma mudança dramática em relação à abordagem mais tradicional de aplicar estilos modificando os elementos DOM diretamente (o que é muito comum com jQuery, por exemplo). Nessa abordagem, você deve acompanhar quando os elementos mudam e também lidar diretamente com a manipulação real. Pode se tornar difícil controlar as alterações, tornando sua IU potencialmente imprevisível. Ao definir um objeto de estilo com base em uma condição, você descreve como a IU deve ser exibida em função do estado do aplicativo. Existe um fluxo claro de informações que só se move em uma direção. Este é o método preferido ao escrever aplicativos com React.**
+
+---
+
+**O editor de código possui um componente de entrada controlada simples com uma borda estilizada. Você deseja estilizar essa borda em vermelho se o usuário digitar mais de 15 caracteres de texto na caixa de entrada. Adicione uma condição para verificar isso e, se a condição for válida, defina o estilo da borda de entrada como `3px solid red`. Você pode experimentar inserindo texto na entrada.**
+
+class GateKeeper extends React.Component {
+
+constructor(props) {
+
+super(props);
+
+this.state = {
+
+input: ''
+
+};
+
+this.handleChange = this.handleChange.bind(this);
+
+}
+
+handleChange(event) {
+
+this.setState({ input: event.target.value })
+
+}
+
+render() {
+
+let inputStyle = {
+
+border: '1px solid black'
+
+};
+
+// Change code below this line
+
+let newStyle = {border: '3px solid red'}
+
+// Change code above this line
+
+return (
+
+<div>
+
+<h3>Don't Type Too Much:</h3>
+
+<input
+
+type="text"
+
+style={this.state.input.length < 16 ? inputStyle : newStyle}
+
+value={this.state.input}
+
+onChange={this.handleChange} />
+
+</div>
+
+);
+
+}
+
+};
+
+**Use Array.map () para renderizar elementos dinamicamente**
+
+**A renderização condicional é útil, mas você pode precisar de seus componentes para renderizar um número desconhecido de elementos. Freqüentemente, na programação reativa, um programador não tem como saber qual é o estado de um aplicativo até o tempo de execução, porque muito depende da interação do usuário com aquele programa. Os programadores precisam escrever seu código para lidar corretamente com esse estado desconhecido com antecedência. Usar `Array.map()`no React ilustra esse conceito.**
+
+**Por exemplo, você cria um aplicativo simples de "Lista de tarefas". Como programador, você não tem como saber quantos itens um usuário pode ter em sua lista. Você precisa configurar seu componente para renderizar dinamicamente o número correto de elementos da lista muito antes que alguém usando o programa decida que hoje é o dia da lavanderia.**
+
+---
+
+**O editor de código possui a maior parte do `MyToDoList`componente configurado. Parte desse código deve parecer familiar se você concluiu o desafio do formulário controlado. Você notará a `textarea`e a `button`, junto com alguns métodos que rastreiam seus estados, mas nada foi renderizado na página ainda.**
+
+**Dentro de `constructor`, crie um `this.state`objeto e defina dois estados: `userInput`deve ser inicializado como uma string vazia e `toDoList`deve ser inicializado como um array vazio. Em seguida, exclua o comentário no `render()`método ao lado da `items`variável. Em seu lugar, mapeie a `toDoList`matriz armazenada no estado interno do componente e renderize dinamicamente um `li`para cada item. Tente inserir a string `eat, code, sleep, repeat`no e `textarea`, em seguida, clique no botão e veja o que acontece.**
+
+**Nota: Você deve saber que todos os elementos filhos irmãos criados por uma operação de mapeamento como esta precisam ser fornecidos com um `key`atributo exclusivo . Não se preocupe, esse é o tema do próximo desafio.**
+
+const textAreaStyles = {
+
+width: 235,
+
+margin: 5
+
+};
+
+class MyToDoList extends React.Component {
+
+constructor(props) {
+
+super(props);
+
+// Change code below this line
+
+this.state = {
+
+userInput: "",
+
+toDoList: []
+
+}
+
+// Change code above this line
+
+this.handleSubmit = this.handleSubmit.bind(this);
+
+this.handleChange = this.handleChange.bind(this);
+
+}
+
+handleSubmit() {
+
+const itemsArray = this.state.userInput.split(',');
+
+this.setState({
+
+toDoList: itemsArray
+
+});
+
+}
+
+handleChange(e) {
+
+this.setState({
+
+userInput: e.target.value
+
+});
+
+}
+
+render() {
+
+const items = this.state.toDoList.map(function(element){
+
+return <li>{element}</li>
+
+});
+
+return (
+
+<div>
+
+<textarea
+
+onChange={this.handleChange}
+
+value={this.state.userInput}
+
+style={textAreaStyles}
+
+placeholder='Separate Items With Commas'
+
+/>
+
+<br />
+
+<button onClick={this.handleSubmit}>Create List</button>
+
+<h1>My "To Do" List:</h1>
+
+<ul>{items}</ul>
+
+</div>
+
+);
+
+}
+
+}
+
+**Dê aos Elementos Irmãos um Atributo Chave Único**
+
+**O último desafio mostrou como o `map`método é usado para renderizar dinamicamente uma série de elementos com base na entrada do usuário. No entanto, havia uma peça importante faltando nesse exemplo. Quando você cria uma matriz de elementos, cada um precisa de um `key`conjunto de atributos com um valor exclusivo. O React usa essas chaves para controlar quais itens são adicionados, alterados ou removidos. Isso ajuda a tornar o processo de re-renderização mais eficiente quando a lista é modificada de alguma forma.**
+
+**Nota: As chaves só precisam ser exclusivas entre os elementos irmãos, elas não precisam ser globalmente exclusivas em seu aplicativo.**
+
+---
+
+**O editor de código tem uma matriz com algumas estruturas de front-end e um componente funcional sem estado denominado `Frameworks()`. `Frameworks()`precisa mapear a matriz para uma lista não ordenada, bem como no último desafio. Termine de escrever o `map`retorno de chamada para retornar um `li`elemento para cada estrutura na `frontEndFrameworks`matriz. Desta vez, certifique-se de dar a cada `li`um `key`atributo, definido com um valor exclusivo. Os `li`elementos também devem conter texto de `frontEndFrameworks`.**
+
+**Normalmente, você deseja que a chave seja algo que identifique exclusivamente o elemento sendo renderizado. Como último recurso, o índice da matriz pode ser usado, mas normalmente você deve tentar usar uma identificação única.**
+
+const frontEndFrameworks = [
+
+'React',
+
+'Angular',
+
+'Ember',
+
+'Knockout',
+
+'Backbone',
+
+'Vue'
+
+];
+
+function Frameworks() {
+
+const renderFrameworks = frontEndFrameworks.map(function(element){
+
+return <li key={element}>{element}</li>
+
+}); // Change this line
+
+return (
+
+<div>
+
+<h1>Popular Front End JavaScript Frameworks</h1>
+
+<ul>
+
+{renderFrameworks}
+
+</ul>
+
+</div>
+
+);
+
+};
+
+**Use Array.filter () para filtrar dinamicamente uma matriz**
+
+**O `map`método array é uma ferramenta poderosa que você usará com frequência ao trabalhar com o React. Outro método relacionado a `map`é `filter`, que filtra o conteúdo de uma matriz com base em uma condição e retorna uma nova matriz. Por exemplo, se você tiver uma matriz de usuários em que todos têm uma propriedade `online`que pode ser definida como `true`ou `false`, você pode filtrar apenas os usuários que estão online escrevendo:**
+
+```
+let onlineUsers = users.filter(user => user.online);
+
+```
+
+---
+
+**No editor de código, `MyComponent`'s `state`é inicializado com uma matriz de usuários. Alguns usuários estão online e outros não. Filtre a matriz para ver apenas os usuários que estão online. Para fazer isso, use primeiro `filter`para retornar uma nova matriz contendo apenas os usuários cuja `online`propriedade é `true`. Em seguida, na `renderOnline`variável, mapeie a matriz filtrada e retorne um `li`elemento para cada usuário que contém o texto deles `username`. Certifique-se de incluir um exclusivo `key`também, como nos últimos desafios.**
+
+class MyComponent extends React.Component {
+
+constructor(props) {
+
+super(props);
+
+this.state = {
+
+users: [
+
+{
+
+username: 'Jeff',
+
+online: true
+
+},
+
+{
+
+username: 'Alan',
+
+online: false
+
+},
+
+{
+
+username: 'Mary',
+
+online: true
+
+},
+
+{
+
+username: 'Jim',
+
+online: false
+
+},
+
+{
+
+username: 'Sara',
+
+online: true
+
+},
+
+{
+
+username: 'Laura',
+
+online: true
+
+}
+
+]
+
+};
+
+}
+
+render() {
+
+const usersOnline = this.state.users.filter(user => user.online == true);
+
+// Change this line
+
+const renderOnline = usersOnline.map(function(ele){
+
+return <li key={ele.username}>{ele.username}</li>
+
+}); // Change this line
+
+return (
+
+<div>
+
+<h1>Current Online Users:</h1>
+
+<ul>{renderOnline}</ul>
+
+</div>
+
+);
+
+}
+
+}
+
+**Renderizar React no servidor com renderToString**
+
+**Até agora, você renderizou componentes React no cliente. Normalmente, isso é o que você sempre fará. No entanto, existem alguns casos de uso em que faz sentido renderizar um componente React no servidor. Como o React é uma biblioteca de visualização JavaScript e você pode executar o JavaScript no servidor com o Node, isso é possível. Na verdade, o React fornece um `renderToString()`método que você pode usar para essa finalidade.**
+
+**Existem dois motivos principais pelos quais a renderização no servidor pode ser usada em um aplicativo do mundo real. Primeiro, sem fazer isso, seus aplicativos React consistiriam em um arquivo HTML relativamente vazio e um grande pacote de JavaScript quando fosse inicialmente carregado no navegador. Isso pode não ser ideal para mecanismos de pesquisa que estão tentando indexar o conteúdo de suas páginas para que as pessoas possam encontrar você. Se você renderizar a marcação HTML inicial no servidor e enviá-la ao cliente, o carregamento da página inicial conterá todas as marcações da página que podem ser rastreadas pelos mecanismos de pesquisa. Em segundo lugar, isso cria uma experiência de carregamento de página inicial mais rápida porque o HTML renderizado é menor que o código JavaScript de todo o aplicativo. O React ainda será capaz de reconhecer seu aplicativo e gerenciá-lo após o carregamento inicial.**
+
+---
+
+**O `renderToString()`método é fornecido em `ReactDOMServer`, que está disponível aqui como um objeto global. O método recebe um argumento que é um elemento React. Use para renderizar `App`em uma string.**
