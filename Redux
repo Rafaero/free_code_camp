@@ -1,0 +1,881 @@
+**Crie uma Loja Redux**
+
+**Redux é uma estrutura de gerenciamento de estado que pode ser usada com várias tecnologias da web diferentes, incluindo React.**
+
+**No Redux, existe um único objeto de estado que é responsável por todo o estado de sua aplicação. Isso significa que se você tivesse um aplicativo React com dez componentes e cada componente tivesse seu próprio estado local, todo o estado do seu aplicativo seria definido por um único objeto de estado alojado no Redux `store`. Este é o primeiro princípio importante a ser entendido ao aprender Redux: a loja Redux é a única fonte de verdade quando se trata do estado do aplicativo.**
+
+**Isso também significa que sempre que qualquer parte do seu aplicativo desejar atualizar o estado, ele deverá fazê-lo por meio da loja Redux. O fluxo de dados unidirecional torna mais fácil rastrear o gerenciamento de estado em seu aplicativo.**
+
+---
+
+**O Redux `store`é um objeto que contém e gerencia a aplicação `state`. Existe um método chamado `createStore()`no objeto Redux, que você usa para criar o Redux `store`. Este método assume uma `reducer`função como um argumento obrigatório. A `reducer`função é abordada em um desafio posterior e já está definida para você no editor de código. Ele simplesmente pega `state`como um argumento e retorna `state`.**
+
+**Declare uma `store`variável e atribua-a ao `createStore()`método, passando o `reducer`como um argumento.**
+
+**Nota: O código no editor usa a sintaxe de argumento padrão ES6 para inicializar este estado para conter um valor de `5`. Se você não estiver familiarizado com os argumentos padrão, pode consultar a [seção ES6 no Currículo](https://learn.freecodecamp.org/javascript-algorithms-and-data-structures/es6/set-default-parameters-for-your-functions) que cobre este tópico.**
+
+const reducer = (state = 5) => {
+
+return state;
+
+}
+
+// Redux methods are available from a Redux object
+
+// For example: Redux.createStore()
+
+// Define the store here:
+
+let store = Redux.createStore(reducer)
+
+**Obtenha o estado da Redux Store**
+
+**O objeto de armazenamento Redux fornece vários métodos que permitem que você interaja com ele. Por exemplo, você pode recuperar a corrente `state`mantida no objeto de armazenamento Redux com o `getState()`método.**
+
+---
+
+**O código do desafio anterior é reescrito de forma mais concisa no editor de código. Use `store.getState()`para recuperar o `state`de `store`e atribua-o a uma nova variável `currentState`.**
+
+const store = Redux.createStore(
+
+(state = 5) => state
+
+);
+
+// Change code below this line
+
+let currentState = store.getState()
+
+**Defina uma ação Redux**
+
+**Como Redux é um framework de gerenciamento de estado, atualizar o estado é uma de suas tarefas principais. No Redux, todas as atualizações de estado são acionadas por ações de despacho. Uma ação é simplesmente um objeto JavaScript que contém informações sobre um evento de ação que ocorreu. A loja Redux recebe esses objetos de ação e, em seguida, atualiza seu estado de acordo. Às vezes, uma ação Redux também carrega alguns dados. Por exemplo, a ação carrega um nome de usuário depois que um usuário efetua login. Embora os dados sejam opcionais, as ações devem carregar uma `type`propriedade que especifica o 'tipo' de ação que ocorreu.**
+
+**Pense nas ações do Redux como mensageiros que entregam informações sobre eventos que acontecem em seu aplicativo para a loja Redux. A loja então conduz o negócio de atualizar o estado com base na ação ocorrida.**
+
+---
+
+**Escrever uma ação Redux é tão simples quanto declarar um objeto com uma propriedade type. Declare um objeto `action`e atribua a ele um `type`conjunto de propriedades para a string `'LOGIN'`.**
+
+// Define an action here:
+
+let action = {
+
+type: 'LOGIN',
+
+}
+
+**Defina um Criador de Ação**
+
+**Após criar uma ação, o próximo passo é enviar a ação para a loja Redux para que ela atualize seu estado. No Redux, você define criadores de ação para fazer isso. Um criador de ação é simplesmente uma função JavaScript que retorna uma ação. Em outras palavras, os criadores de ação criam objetos que representam eventos de ação.**
+
+---
+
+**Defina uma função chamada `actionCreator()`que retorna o `action`objeto quando chamada.**
+
+const action = {
+
+type: 'LOGIN'
+
+}
+
+// Define an action creator here:
+
+function actionCreator(){
+
+return action;
+
+}
+
+**Despachar um Evento de Ação**
+
+`**dispatch`método é o que você usa para despachar ações para a loja Redux. Chamar `store.dispatch()`e passar o valor retornado de um criador de ação envia uma ação de volta para a loja.**
+
+**Lembre-se de que os criadores de ação retornam um objeto com uma propriedade de tipo que especifica a ação que ocorreu. Em seguida, o método despacha um objeto de ação para a loja Redux. Com base no exemplo do desafio anterior, as seguintes linhas são equivalentes e ambas despacham a ação do tipo `LOGIN`:**
+
+```
+store.dispatch(actionCreator());
+store.dispatch({ type: 'LOGIN' });
+
+```
+
+---
+
+**O armazenamento Redux no editor de código tem um estado inicializado que é um objeto que contém uma `login`propriedade atualmente definida para `false`. Há também um criador de ação chamado, `loginAction()`que retorna uma ação do tipo `LOGIN`. Despache a `LOGIN`ação para a loja Redux chamando o `dispatch`método e passe a ação criada por `loginAction()`.**
+
+---
+
+const store = Redux.createStore(
+
+(state = {login: false}) => state
+
+);
+
+const loginAction = () => {
+
+return {
+
+type: 'LOGIN'
+
+}
+
+};
+
+// Dispatch the action here:
+
+store.dispatch(loginAction())
+
+**Lidar com uma ação na loja**
+
+**Depois que uma ação é criada e despachada, a loja Redux precisa saber como responder a essa ação. Este é o trabalho de uma `reducer`função. Os redutores no Redux são responsáveis pelas modificações de estado que ocorrem em resposta às ações. A `reducer`recebe `state`e `action`como argumentos e sempre retorna um novo `state`. É importante ver que essa é a única função do redutor. Não tem efeitos colaterais - nunca chama um endpoint de API e nunca tem surpresas ocultas. O redutor é simplesmente uma função pura que assume o estado e a ação e, em seguida, retorna um novo estado.**
+
+**Outro princípio fundamental no Redux é que ele `state`é somente leitura. Em outras palavras, a `reducer`função deve sempre retornar uma nova cópia `state`e nunca modificar o estado diretamente. Redux não impõe imutabilidade de estado, no entanto, você é responsável por aplicá-lo no código de suas funções de redutor. Você vai praticar isso em desafios posteriores.**
+
+---
+
+**O editor de código tem o exemplo anterior e também o início de uma `reducer`função para você. Preencha o corpo da `reducer`função para que, se receber uma ação do tipo, `'LOGIN'`ela retorne um objeto de estado com `login`definido como `true`. Caso contrário, ele retorna o atual `state`. Observe que o atual `state`e o despachado `action`são passados para o redutor, para que você possa acessar o tipo da ação diretamente com `action.type`.**
+
+const defaultState = {
+
+login: false
+
+};
+
+const reducer = (state = defaultState, action) => {
+
+// Change code below this line
+
+if(action.type == 'LOGIN'){
+
+return state = {
+
+login: true,
+
+}
+
+}else{
+
+return state
+
+}
+
+// Change code above this line
+
+};
+
+const store = Redux.createStore(reducer);
+
+const loginAction = () => {
+
+return {
+
+type: 'LOGIN'
+
+}
+
+};
+
+**Use uma instrução Switch para lidar com várias ações**
+
+**Você pode dizer ao repositório Redux como lidar com vários tipos de ação. Digamos que você esteja gerenciando a autenticação do usuário em sua loja Redux. Você deseja ter uma representação de estado para quando os usuários estão conectados e quando estão desconectados. Você representa isso com um único objeto de estado com a propriedade `authenticated`. Você também precisa de criadores de ação que criam ações correspondentes ao login e logout do usuário, junto com os próprios objetos de ação.**
+
+---
+
+**O editor de código tem uma loja, ações e criadores de ação configurados para você. Preencha a `reducer`função para lidar com várias ações de autenticação. Use uma `switch`instrução JavaScript no `reducer`para responder a diferentes eventos de ação. Este é um padrão padrão na escrita de redutores Redux. A instrução switch deve ser alternada `action.type`e retornar ao estado de autenticação apropriado.**
+
+**Nota: neste ponto, não se preocupe com a imutabilidade do estado, uma vez que é pequeno e simples neste exemplo. Para cada ação, você pode retornar um novo objeto - por exemplo `{authenticated: true}`,. Além disso, não se esqueça de escrever um `default`caso em sua instrução switch que retorne o atual `state`. Isso é importante porque, uma vez que seu aplicativo tem vários redutores, todos eles são executados sempre que um despacho de ação é feito, mesmo quando a ação não está relacionada a esse redutor. Nesse caso, você deseja certificar-se de que retornou a corrente `state`.**
+
+const defaultState = {
+
+authenticated: false
+
+};
+
+const authReducer = (state = defaultState, action) => {
+
+// Change code below this line
+
+switch(action.type){
+
+case 'LOGIN':
+
+return {authenticated : true}
+
+case 'LOGOUT':
+
+return {authenticated : false}
+
+default:
+
+return state;
+
+}
+
+// Change code above this line
+
+};
+
+const store = Redux.createStore(authReducer);
+
+const loginUser = () => {
+
+return {
+
+type: 'LOGIN'
+
+}
+
+};
+
+const logoutUser = () => {
+
+return {
+
+type: 'LOGOUT'
+
+}
+
+};
+
+**Use const para tipos de ação**
+
+**Uma prática comum ao trabalhar com Redux é atribuir tipos de ação como constantes somente leitura e, em seguida, fazer referência a essas constantes onde quer que sejam usadas. Você pode refatorar o código com o qual está trabalhando para escrever os tipos de ação como `const`declarações.**
+
+---
+
+**Declare `LOGIN`e `LOGOUT`como `const`valores e atribua-os às strings `'LOGIN'`e `'LOGOUT'`, respectivamente. Em seguida, edite o `authReducer()`e os criadores de ação para fazer referência a essas constantes em vez de valores de string.**
+
+**Observação: geralmente é uma convenção escrever constantes em maiúsculas, e essa também é uma prática padrão no Redux.**
+
+const LOGIN = "LOGIN";
+
+const LOGOUT = "LOGOUT";
+
+const defaultState = {
+
+authenticated: false
+
+};
+
+const authReducer = (state = defaultState, action) => {
+
+switch (action.type) {
+
+case LOGIN:
+
+return {
+
+authenticated: true
+
+}
+
+case LOGOUT:
+
+return {
+
+authenticated: false
+
+}
+
+default:
+
+return state;
+
+}
+
+};
+
+const store = Redux.createStore(authReducer);
+
+const loginUser = () => {
+
+return {
+
+type: LOGIN
+
+}
+
+};
+
+const logoutUser = () => {
+
+return {
+
+type: LOGOUT
+
+}
+
+};
+
+**Registrar um ouvinte da loja**
+
+**Outro método que você tem acesso no `store`objeto Redux é `store.subscribe()`. Isso permite que você assine funções de ouvinte na loja, que são chamadas sempre que uma ação é despachada na loja. Um uso simples para esse método é inscrever uma função em sua loja que simplesmente registra uma mensagem sempre que uma ação é recebida e a loja é atualizada.**
+
+---
+
+**Escreva uma função de retorno de chamada que aumente a variável global `count`sempre que o armazenamento receber uma ação e passe essa função para o `store.subscribe()`método. Você verá que `store.dispatch()`é chamado três vezes seguidas, cada vez passando diretamente um objeto de ação. Observe a saída do console entre os despachos de ação para ver as atualizações ocorrendo.**
+
+const ADD = 'ADD';
+
+const reducer = (state = 0, action) => {
+
+switch(action.type) {
+
+case ADD:
+
+return state + 1;
+
+default:
+
+return state;
+
+}
+
+};
+
+const store = Redux.createStore(reducer);
+
+// Global count variable:
+
+let count = 0;
+
+// Change code below this line
+
+function addCount(){
+
+return count++;
+
+}
+
+store.subscribe(addCount)
+
+// Change code above this line
+
+store.dispatch({type: ADD});
+
+console.log(count);
+
+store.dispatch({type: ADD});
+
+console.log(count);
+
+store.dispatch({type: ADD});
+
+console.log(count);
+
+**Combine vários redutores**
+
+**Quando o estado do seu aplicativo começa a ficar mais complexo, pode ser tentador dividir o estado em várias partes. Em vez disso, lembre-se do primeiro princípio do Redux: todo o estado do aplicativo é mantido em um único objeto de estado na loja. Portanto, Redux fornece composição redutora como uma solução para um modelo de estado complexo. Você define vários redutores para lidar com diferentes partes do estado do seu aplicativo e, em seguida, compõe esses redutores juntos em um redutor raiz. O redutor de raiz é então passado para o `createStore()`método Redux .**
+
+**Para nos permitir combinar vários redutores, Redux fornece o `combineReducers()`método. Este método aceita um objeto como um argumento no qual você define propriedades que associam teclas a funções de redutor específicas. O nome que você der às chaves será usado por Redux como o nome para a parte de estado associada.**
+
+**Normalmente, é uma boa prática criar um redutor para cada parte do estado do aplicativo quando eles são distintos ou exclusivos de alguma forma. Por exemplo, em um aplicativo de anotações com autenticação do usuário, um redutor pode lidar com a autenticação enquanto outro lida com o texto e as notas que o usuário está enviando. Para tal aplicação, podemos escrever o `combineReducers()`método como este:**
+
+```
+const rootReducer = Redux.combineReducers({
+  auth: authenticationReducer,
+  notes: notesReducer
+});
+
+```
+
+**Agora, a chave `notes`conterá todos os estados associados às nossas notas e manipulados por nosso `notesReducer`. É assim que vários redutores podem ser compostos para gerenciar estados de aplicativos mais complexos. Neste exemplo, o estado mantido na loja Redux seria um único objeto contendo `auth`e `notes`propriedades.**
+
+---
+
+**Existem funções `counterReducer()`e `authReducer()`fornecidas no editor de código, juntamente com uma loja Redux. Termine de escrever a `rootReducer()`função usando o `Redux.combineReducers()`método. Atribuir `counterReducer`a uma tecla chamada `count`e `authReducer`a uma tecla chamada `auth`.**
+
+const INCREMENT = 'INCREMENT';
+
+const DECREMENT = 'DECREMENT';
+
+const counterReducer = (state = 0, action) => {
+
+switch(action.type) {
+
+case INCREMENT:
+
+return state + 1;
+
+case DECREMENT:
+
+return state - 1;
+
+default:
+
+return state;
+
+}
+
+};
+
+const LOGIN = 'LOGIN';
+
+const LOGOUT = 'LOGOUT';
+
+const authReducer = (state = {authenticated: false}, action) => {
+
+switch(action.type) {
+
+case LOGIN:
+
+return {
+
+authenticated: true
+
+}
+
+case LOGOUT:
+
+return {
+
+authenticated: false
+
+}
+
+default:
+
+return state;
+
+}
+
+};
+
+const rootReducer = Redux.combineReducers({
+
+count: counterReducer,
+
+auth: authReducer
+
+})// Define the root reducer here
+
+const store = Redux.createStore(rootReducer);
+
+**Enviar dados de ação para a loja**
+
+**Agora você aprendeu como despachar ações para a loja Redux, mas até agora essas ações não continham nenhuma informação além de a `type`. Você também pode enviar dados específicos junto com suas ações. Na verdade, isso é muito comum porque as ações geralmente se originam de alguma interação do usuário e tendem a transportar alguns dados com eles. A loja Redux geralmente precisa saber sobre esses dados.**
+
+---
+
+**Há um criador básico `notesReducer()`e um `addNoteText()`criador de ação definidos no editor de código. Conclua o corpo da `addNoteText()`função para que ele retorne um `action`objeto. O objeto deve incluir uma `type`propriedade com um valor de `ADD_NOTE`e também uma `text`propriedade definida para os `note`dados que são passados para o criador da ação. Ao chamar o criador da ação, você passará informações específicas da nota que você pode acessar para o objeto.**
+
+**Em seguida, termine de escrever a `switch`declaração no `notesReducer()`. Você precisa adicionar um caso que lida com as `addNoteText()`ações. Este caso deve ser acionado sempre que houver uma ação do tipo `ADD_NOTE`e deve retornar a `text`propriedade na entrada `action`como nova `state`.**
+
+**A ação é despachada na parte inferior do código. Quando terminar, execute o código e observe o console. Isso é tudo o que é necessário para enviar dados específicos da ação para a loja e usá-los ao atualizar a loja `state`.**
+
+const ADD_NOTE = 'ADD_NOTE';
+
+const notesReducer = (state = 'Initial State', action) => {
+
+switch(action.type) {
+
+// Change code below this line
+
+case ADD_NOTE:
+
+return action.text;
+
+// Change code above this line
+
+default:
+
+return state;
+
+}
+
+};
+
+const addNoteText = (note) => {
+
+// Change code below this line
+
+let action = {
+
+type: ADD_NOTE,
+
+text: note
+
+}
+
+return action;
+
+// Change code above this line
+
+};
+
+const store = Redux.createStore(notesReducer);
+
+console.log(store.getState());
+
+store.dispatch(addNoteText('Hello!'));
+
+console.log(store.getState());
+
+**Use middleware para lidar com ações assíncronas**
+
+**Até agora, esses desafios evitaram discutir ações assíncronas, mas são uma parte inevitável do desenvolvimento web. Em algum ponto, você precisará chamar endpoints assíncronos em seu aplicativo Redux, então, como você lida com esses tipos de solicitações? Redux fornece middleware projetado especificamente para este propósito, chamado middleware Redux Thunk. Aqui está uma breve descrição de como usar isso com Redux.**
+
+**Para incluir o middleware Redux Thunk, você o passa como um argumento para `Redux.applyMiddleware()`. Essa instrução é então fornecida como um segundo parâmetro opcional para a `createStore()`função. Dê uma olhada no código na parte inferior do editor para ver isso. Então, para criar uma ação assíncrona, você retorna uma função no criador da ação que assume `dispatch`como um argumento. Dentro desta função, você pode despachar ações e executar solicitações assíncronas.**
+
+**Neste exemplo, uma solicitação assíncrona é simulada com uma `setTimeout()`chamada. É comum despachar uma ação antes de iniciar qualquer comportamento assíncrono para que o estado do seu aplicativo saiba que alguns dados estão sendo solicitados (este estado pode exibir um ícone de carregamento, por exemplo). Então, depois de receber os dados, você despacha outra ação que carrega os dados como uma carga junto com as informações de que a ação foi concluída.**
+
+**Lembre-se de que você está passando `dispatch`como parâmetro para esse criador de ação especial. Isso é o que você usará para despachar suas ações, basta passar a ação diretamente para despachar e o middleware cuidará do resto.**
+
+---
+
+**Escreva ambos os despachos no `handleAsync()`criador da ação. Despachar `requestingData()`antes de `setTimeout()`(a chamada de API simulada). Então, depois de receber os dados (fingidos), despache a `receivedData()`ação, passando esses dados. Agora você sabe como lidar com ações assíncronas no Redux. Todo o resto continua a se comportar como antes.**
+
+const REQUESTING_DATA = 'REQUESTING_DATA'
+
+const RECEIVED_DATA = 'RECEIVED_DATA'
+
+const requestingData = () => { return {type: REQUESTING_DATA} }
+
+const receivedData = (data) => { return {type: RECEIVED_DATA, users: data.users} }
+
+const handleAsync = () => {
+
+return function(dispatch) {
+
+// Dispatch request action here
+
+dispatch(requestingData())
+
+setTimeout(function() {
+
+let data = {
+
+users: ['Jeff', 'William', 'Alice']
+
+}
+
+// Dispatch received data action here
+
+dispatch(receivedData(data))
+
+}, 2500);
+
+}
+
+};
+
+const defaultState = {
+
+fetching: false,
+
+users: []
+
+};
+
+const asyncDataReducer = (state = defaultState, action) => {
+
+switch(action.type) {
+
+case REQUESTING_DATA:
+
+return {
+
+fetching: true,
+
+users: []
+
+}
+
+case RECEIVED_DATA:
+
+return {
+
+fetching: false,
+
+users: action.users
+
+}
+
+default:
+
+return state;
+
+}
+
+};
+
+const store = Redux.createStore(
+
+asyncDataReducer,
+
+Redux.applyMiddleware(ReduxThunk.default)
+
+);
+
+**Escreva um contador com Redux**
+
+**Agora você aprendeu todos os princípios básicos do Redux! Você viu como criar ações e criadores de ações, criar uma loja Redux, despachar suas ações na loja e projetar atualizações de estado com redutores puros. Você até viu como gerenciar estados complexos com composição de redutor e lidar com ações assíncronas. Esses exemplos são simplistas, mas esses conceitos são os princípios básicos do Redux. Se você os entende bem, você está pronto para começar a construir seu próprio aplicativo Redux. Os próximos desafios cobrem alguns dos detalhes relacionados à `state`imutabilidade, mas primeiro, aqui está uma revisão de tudo o que você aprendeu até agora.**
+
+---
+
+**Nesta lição, você implementará um contador simples com Redux do zero. O básico é fornecido no editor de código, mas você terá que preencher os detalhes! Use os nomes que são fornecidos e definir `incAction`e `decAction`ação criadores, os `counterReducer()`, `INCREMENT`e `DECREMENT`tipos de ação, e finalmente o Redux `store`. Assim que terminar, você poderá despachar `INCREMENT`ou `DECREMENT`ações para aumentar ou diminuir o estado mantido no `store`. Boa sorte construindo seu primeiro aplicativo Redux!**
+
+const INCREMENT = "INCREMENT"; // define a constant for increment action types
+
+const DECREMENT = "DECREMENT"; // define a constant for decrement action types
+
+// define the counter reducer which will increment or decrement the state based on the action it receives
+
+const counterReducer = (state = 0, action) => {
+
+switch (action.type) {
+
+case INCREMENT:
+
+return state + 1;
+
+case DECREMENT:
+
+return state - 1;
+
+default:
+
+return state;
+
+}
+
+};
+
+// define an action creator for incrementing
+
+const incAction = () => {
+
+return {
+
+type: INCREMENT
+
+};
+
+};
+
+// define an action creator for decrementing
+
+const decAction = () => {
+
+return {
+
+type: DECREMENT
+
+};
+
+};
+
+// define the Redux store here, passing in your reducers
+
+const store = Redux.createStore(counterReducer);
+
+**Never Mutate State**
+
+**Esses desafios finais descrevem vários métodos de aplicação do princípio-chave da imutabilidade de estado no Redux. O estado imutável significa que você nunca modifica o estado diretamente; em vez disso, você retorna uma nova cópia do estado.**
+
+**Se você tomou um instantâneo do estado de um aplicativo Redux ao longo do tempo, você veria algo como `state 1`, `state 2`, `state 3`, `state 4`, `...`e assim por diante, onde cada estado pode ser semelhante ao passado, mas cada um é uma peça distinta de dados. Essa imutabilidade, na verdade, é o que fornece recursos como depuração de viagem no tempo, sobre os quais você já deve ter ouvido falar.**
+
+**Redux não impõe ativamente a imutabilidade de estado em sua loja ou redutores, essa responsabilidade recai sobre o programador. Felizmente, JavaScript (especialmente ES6) oferece várias ferramentas úteis que você pode usar para fazer cumprir a imutabilidade do seu estado, se é um `string`, `number`, `array`, ou `object`. Observe que strings e números são valores primitivos e imutáveis por natureza. Em outras palavras, 3 é sempre 3. Você não pode alterar o valor do número 3. Um `array`ou `object`, entretanto, é mutável. Na prática, seu estado provavelmente consistirá em um `array`ou `object`, pois essas são estruturas de dados úteis para representar muitos tipos de informações.**
+
+---
+
+**Existe um `store`e `reducer`no editor de código para gerenciar itens de tarefas pendentes. Termine de escrever o `ADD_TO_DO`caso no redutor para anexar uma nova tarefa ao estado. Existem algumas maneiras de fazer isso com JavaScript ou ES6 padrão. Veja se você consegue encontrar uma maneira de retornar uma nova matriz com o item de `action.todo`anexado ao final.**
+
+const ADD_TO_DO = 'ADD_TO_DO';
+
+// A list of strings representing tasks to do:
+
+const todos = [
+
+'Go to the store',
+
+'Clean the house',
+
+'Cook dinner',
+
+'Learn to code',
+
+];
+
+const immutableReducer = (state = todos, action) => {
+
+switch(action.type) {
+
+case ADD_TO_DO:
+
+// Don't mutate state here or the tests will fail
+
+let newList = [...todos];
+
+newList.push(action.todo);
+
+return newList
+
+default:
+
+return state;
+
+}
+
+};
+
+const addToDo = (todo) => {
+
+return {
+
+type: ADD_TO_DO,
+
+todo
+
+}
+
+}
+
+const store = Redux.createStore(immutableReducer);
+
+**Use o Spread Operator em Arrays**
+
+**Uma solução de ES6 para ajudar a impor a imutabilidade estado em Redux é o operador de propagação: `...`. O operador de propagação tem uma variedade de aplicações, uma das quais é bem adequada para o desafio anterior de produzir um novo array a partir de um array existente. Esta é uma sintaxe relativamente nova, mas comumente usada. Por exemplo, se você tiver uma matriz `myArray`e escrever:**
+
+```
+let newArray = [...myArray];
+
+```
+
+`**newArray`agora é um clone de `myArray`. Ambas as matrizes ainda existem separadamente na memória. Se você realizar uma mutação como `newArray.push(5)`, `myArray`não muda. O `...`efetivamente *espalha* os valores em `myArray`uma nova matriz. Para clonar uma matriz, mas adicionar valores adicionais na nova matriz, você pode escrever `[...myArray, 'new value']`. Isso retornaria uma nova matriz composta dos valores de `myArray`e a string `new value`como o último valor. A sintaxe de propagação pode ser usada várias vezes em uma composição de array como esta, mas é importante observar que ela apenas faz uma cópia superficial do array. Ou seja, ele fornece apenas operações de array imutáveis para arrays unidimensionais.**
+
+---
+
+**Use o operador spread para retornar uma nova cópia do estado quando uma tarefa é adicionada.**
+
+const immutableReducer = (state = ['Do not mutate state!'], action) => {
+
+switch(action.type) {
+
+case 'ADD_TO_DO':
+
+// Don't mutate state here or the tests will fail
+
+let newArray = [...state, action.todo]
+
+return newArray
+
+default:
+
+return state;
+
+}
+
+};
+
+const addToDo = (todo) => {
+
+return {
+
+type: 'ADD_TO_DO',
+
+todo
+
+}
+
+}
+
+const store = Redux.createStore(immutableReducer);
+
+**Remover um item de uma matriz**
+
+**É hora de praticar a remoção de itens de uma matriz. O operador de propagação também pode ser usado aqui. Outros métodos úteis de JavaScript incluem `slice()`e `concat()`.**
+
+---
+
+**O redutor e o criador da ação foram modificados para remover um item de uma matriz com base no índice do item. Termine de escrever o redutor para que uma nova matriz de estado seja retornada com o item no índice específico removido.**
+
+const immutableReducer = (state = [0,1,2,3,4,5], action) => {
+
+switch(action.type) {
+
+case 'REMOVE_ITEM':
+
+let a = state.slice(0, action.index);
+
+let b = state.slice(action.index + 1)
+
+return a.concat(b)
+
+default:
+
+return state;
+
+}
+
+};
+
+const removeItem = (index) => {
+
+return {
+
+type: 'REMOVE_ITEM',
+
+index
+
+}
+
+}
+
+**Copie um objeto com Object.assign**
+
+**Os últimos vários desafios funcionaram com matrizes, mas também existem maneiras de ajudar a impor a imutabilidade do estado quando o estado é um `object`. Uma ferramenta útil para lidar com objetos é o `Object.assign()`utilitário. `Object.assign()`pega um objeto de destino e objetos de origem e mapeia propriedades dos objetos de origem para o objeto de destino. Todas as propriedades correspondentes são substituídas por propriedades nos objetos de origem. Esse comportamento é comumente usado para fazer cópias superficiais de objetos, passando um objeto vazio como o primeiro argumento seguido pelo (s) objeto (s) que você deseja copiar. Aqui está um exemplo:**
+
+```
+const newObject = Object.assign({}, obj1, obj2);
+
+```
+
+**Isso é criado `newObject`como um novo `object`, que contém as propriedades que existem atualmente em `obj1`e `obj2`.**
+
+---
+
+**O estado e as ações Redux foram modificados para lidar com um `object`para o `state`. Edite o código para retornar um novo `state`objeto para ações com tipo `ONLINE`, que define a `status`propriedade para a string `online`. Tente usar `Object.assign()`para completar o desafio.**
+
+const defaultState = {
+
+user: 'CamperBot',
+
+status: 'offline',
+
+friends: '732,982',
+
+community: 'freeCodeCamp'
+
+};
+
+const immutableReducer = (state = defaultState, action) => {
+
+switch(action.type) {
+
+case 'ONLINE':
+
+// Don't mutate state here or the tests will fail
+
+const newObject = Object.assign({}, state, {status: 'online'});
+
+return newObject
+
+default:
+
+return state;
+
+}
+
+};
+
+const wakeUp = () => {
+
+return {
+
+type: 'ONLINE'
+
+}
+
+};
+
+const store = Redux.createStore(immutableReducer);
