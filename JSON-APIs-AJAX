@@ -1,0 +1,1229 @@
+**Manipule eventos de clique com JavaScript usando a propriedade onclick**
+
+**Você deseja que seu código seja executado apenas quando a página terminar de carregar. Para isso, você pode anexar um evento JavaScript ao documento chamado `DOMContentLoaded`. Este é o código que faz isso:**
+
+```
+document.addEventListener('DOMContentLoaded', function() {});
+
+```
+
+**Você pode implementar manipuladores de eventos que vão dentro da `DOMContentLoaded`função. Você pode implementar um `onclick`manipulador de eventos que dispara quando o usuário clica no elemento com id `getMessage`, adicionando o seguinte código:**
+
+```
+document.getElementById('getMessage').onclick = function(){};
+
+```
+
+---
+
+**Adicione um manipulador de eventos click dentro da `DOMContentLoaded`função para o elemento com id de `getMessage`.**
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function(){
+
+// Add your code below this line
+
+document.getElementById("getMessage").onclick = function(){
+
+}
+
+// Add your code above this line
+
+});
+
+</script>
+
+<style>
+
+body {
+
+text-align: center;
+
+font-family: "Helvetica", sans-serif;
+
+}
+
+h1 {
+
+font-size: 2em;
+
+font-weight: bold;
+
+}
+
+.box {
+
+border-radius: 5px;
+
+background-color: #eee;
+
+padding: 20px 5px;
+
+}
+
+button {
+
+color: white;
+
+background-color: #4791d0;
+
+border-radius: 5px;
+
+border: 1px solid #4791d0;
+
+padding: 5px 10px 8px 10px;
+
+}
+
+button:hover {
+
+background-color: #0F5897;
+
+border: 1px solid #0F5897;
+
+}
+
+</style>
+
+<h1>Cat Photo Finder</h1>
+
+<p class="message box">
+
+The message will go here
+
+</p>
+
+<p>
+
+<button id="getMessage">
+
+Get Message
+
+</button>
+
+</p>
+
+**Alterar o texto com eventos de clique**
+
+**Quando o evento de clique acontece, você pode usar JavaScript para atualizar um elemento HTML.**
+
+**Por exemplo, quando um usuário clica no `Get Message`botão, ele altera o texto do elemento com a classe `message`a dizer `Here is the message`.**
+
+**Isso funciona adicionando o seguinte código no evento de clique:**
+
+```
+document.getElementsByClassName('message')[0].textContent="Here is the message";
+
+```
+
+---
+
+**Adicione o código dentro do `onclick`manipulador de eventos para alterar o texto dentro do `message`elemento para dizer `Here is the message`.**
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function(){
+
+document.getElementById('getMessage').onclick = function(){
+
+// Add your code below this line
+
+**document.getElementsByClassName('message')[0].textContent="Here is the message"**
+
+// Add your code above this line
+
+}
+
+});
+
+</script>
+
+<style>
+
+body {
+
+text-align: center;
+
+font-family: "Helvetica", sans-serif;
+
+}
+
+h1 {
+
+font-size: 2em;
+
+font-weight: bold;
+
+}
+
+.box {
+
+border-radius: 5px;
+
+background-color: #eee;
+
+padding: 20px 5px;
+
+}
+
+button {
+
+color: white;
+
+background-color: #4791d0;
+
+border-radius: 5px;
+
+border: 1px solid #4791d0;
+
+padding: 5px 10px 8px 10px;
+
+}
+
+button:hover {
+
+background-color: #0F5897;
+
+border: 1px solid #0F5897;
+
+}
+
+</style>
+
+<h1>Cat Photo Finder</h1>
+
+<p class="message box">
+
+The message will go here
+
+</p>
+
+<p>
+
+<button id="getMessage">
+
+Get Message
+
+</button>
+
+</p>
+
+**Obtenha JSON com o método JavaScript XMLHttpRequest**
+
+**Você também pode solicitar dados de uma fonte externa. É aqui que as APIs entram em jogo.**
+
+**Lembre-se de que APIs - ou interfaces de programação de aplicativos - são ferramentas que os computadores usam para se comunicarem uns com os outros. Você aprenderá como atualizar o HTML com os dados que obtemos das APIs usando uma tecnologia chamada AJAX.**
+
+**A maioria das APIs da web transfere dados em um formato chamado JSON. JSON significa JavaScript Object Notation.**
+
+**A sintaxe JSON é muito semelhante à notação literal de objeto JavaScript. JSON tem propriedades de objeto e seus valores atuais, imprensado entre a `{`e a `}`.**
+
+**Essas propriedades e seus valores costumam ser chamados de "pares de valores-chave".**
+
+**No entanto, JSON transmitidos por APIs são enviados como `bytes`e seu aplicativo o recebe como um `string`. Eles podem ser convertidos em objetos JavaScript, mas não são objetos JavaScript por padrão. O `JSON.parse`método analisa a string e constrói o objeto JavaScript descrito por ele.**
+
+**Você pode solicitar o JSON da Cat Photo API do freeCodeCamp. Este é o código que você pode inserir em seu evento de clique para fazer isso:**
+
+```
+const req = new XMLHttpRequest();
+req.open("GET",'/json/cats.json',true);
+req.send();
+req.onload = function(){
+  const json = JSON.parse(req.responseText);
+  document.getElementsByClassName('message')[0].innerHTML = JSON.stringify(json);
+};
+
+```
+
+**Aqui está uma revisão do que cada peça está fazendo. O `XMLHttpRequest`objeto JavaScript possui várias propriedades e métodos que são usados para transferir dados. Primeiro, uma instância do `XMLHttpRequest`objeto é criada e salva na `req`variável. Em seguida, o `open`método inicializa uma solicitação - este exemplo está solicitando dados de uma API, portanto, é uma `GET`solicitação. O segundo argumento `open`é o URL da API da qual você está solicitando dados. O terceiro argumento é um valor booleano que o `true`torna uma solicitação assíncrona. O `send`método envia a solicitação. Finalmente, o `onload`manipulador de eventos analisa os dados retornados e aplica o `JSON.stringify`método para converter o objeto JavaScript em uma string. Essa string é então inserida como o texto da mensagem.**
+
+---
+
+**Atualize o código para criar e enviar uma `GET`solicitação para a API freeCodeCamp Cat Photo. Em seguida, clique no `Get Message`botão. Sua função AJAX substituirá o `The message will go here`texto pela saída JSON bruta da API.**
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function(){
+
+document.getElementById('getMessage').onclick = function(){
+
+// Add your code below this line
+
+const req = new XMLHttpRequest();
+
+req.open("GET", '/json/cats.json', true);
+
+req.send();
+
+req.onload = function(){
+
+const json = JSON.parse(req.responseText);
+
+document.getElementsByClassName('message')[0].innerHTML = JSON.stringify(json);
+
+}
+
+// Add your code above this line
+
+};
+
+});
+
+</script>
+
+<style>
+
+body {
+
+text-align: center;
+
+font-family: "Helvetica", sans-serif;
+
+}
+
+h1 {
+
+font-size: 2em;
+
+font-weight: bold;
+
+}
+
+.box {
+
+border-radius: 5px;
+
+background-color: #eee;
+
+padding: 20px 5px;
+
+}
+
+button {
+
+color: white;
+
+background-color: #4791d0;
+
+border-radius: 5px;
+
+border: 1px solid #4791d0;
+
+padding: 5px 10px 8px 10px;
+
+}
+
+button:hover {
+
+background-color: #0F5897;
+
+border: 1px solid #0F5897;
+
+}
+
+</style>
+
+<h1>Cat Photo Finder</h1>
+
+<p class="message box">
+
+The message will go here
+
+</p>
+
+<p>
+
+<button id="getMessage">
+
+Get Message
+
+</button>
+
+</p>
+
+**Obtenha JSON com o método de busca de JavaScript**
+
+**Outra forma de solicitar dados externos é usar o `fetch()`método JavaScript . É equivalente a `XMLHttpRequest`, mas a sintaxe é considerada mais fácil de entender.**
+
+**Aqui está o código para fazer uma solicitação GET para `/json/cats.json`**
+
+```
+fetch('/json/cats.json')
+	.then(response => response.json())
+	.then(data => {
+		document.getElementById('message').innerHTML = JSON.stringify(data);
+	})
+```
+
+**Dê uma olhada em cada parte deste código.**
+
+**A primeira linha é aquela que faz a solicitação. Portanto, `fetch(URL)`faz uma `GET`solicitação ao URL especificado. O método retorna uma promessa.**
+
+**Após o retorno de uma Promessa, se a solicitação foi bem-sucedida, o `then`método é executado, que pega a resposta e a converte para o formato JSON.**
+
+**O `then`método também retorna uma promessa, que é tratada pelo próximo `then`método. O argumento no segundo `then`é o objeto JSON que você está procurando!**
+
+**Agora, ele seleciona o elemento que receberá os dados por meio de `document.getElementById()`. Em seguida, ele modifica o código HTML do elemento inserindo uma string criada a partir do objeto JSON retornado da solicitação.**
+
+---
+
+**Atualize o código para criar e enviar uma `GET`solicitação para a API freeCodeCamp Cat Photo. Mas desta vez, usando o `fetch`método em vez de `XMLHttpRequest`.**
+
+<script>
+
+document.addEventListener('DOMContentLoaded',function(){
+
+document.getElementById('getMessage').onclick= () => {
+
+// Add your code below this line
+
+fetch('/json/cats.json')
+
+.then(response => response.json())
+
+.then(data => {
+
+document.getElementById('message').innerHTML = JSON.stringify(data)
+
+})
+
+// Add your code above this line
+
+};
+
+});
+
+</script>
+
+<style>
+
+body {
+
+text-align: center;
+
+font-family: "Helvetica", sans-serif;
+
+}
+
+h1 {
+
+font-size: 2em;
+
+font-weight: bold;
+
+}
+
+.box {
+
+border-radius: 5px;
+
+background-color: #eee;
+
+padding: 20px 5px;
+
+}
+
+button {
+
+color: white;
+
+background-color: #4791d0;
+
+border-radius: 5px;
+
+border: 1px solid #4791d0;
+
+padding: 5px 10px 8px 10px;
+
+}
+
+button:hover {
+
+background-color: #0F5897;
+
+border: 1px solid #0F5897;
+
+}
+
+</style>
+
+<h1>Cat Photo Finder</h1>
+
+<p id="message" class="box">
+
+The message will go here
+
+</p>
+
+<p>
+
+<button id="getMessage">
+
+Get Message
+
+</button>
+
+</p>
+
+**Acesse os dados JSON de uma API**
+
+**No desafio anterior, você viu como obter dados JSON do freeCodeCamp Cat Photo API.**
+
+**Agora, você examinará mais de perto os dados retornados para entender melhor o formato JSON. Lembre-se de algumas notações em JavaScript:**
+
+> [] -> Os colchetes representam uma matriz
+
+{} -> Os colchetes representam um objeto
+
+" " -> As aspas representam uma string. Eles também são usados para nomes de chave em JSON
+
+**Compreender a estrutura dos dados que uma API retorna é importante porque influencia como você recupera os valores de que precisa.**
+
+**À direita, clique no `Get Message`botão para carregar o freeCodeCamp Cat Photo API JSON no HTML.**
+
+**O primeiro e o último caractere que você vê nos dados JSON são colchetes `[ ]`. Isso significa que os dados retornados são uma matriz. O segundo caractere nos dados JSON é uma chave `{`, que inicia um objeto. Olhando de perto, você pode ver que existem três objetos separados. Os dados JSON são uma matriz de três objetos, onde cada objeto contém informações sobre a foto de um gato.**
+
+**Você aprendeu anteriormente que os objetos contêm "pares de valores-chave" separados por vírgulas. No exemplo Cat Photo, o primeiro objeto tem `"id":0`where `id`é uma chave e `0`é seu valor correspondente. Da mesma forma, existem teclas para `imageLink`, `altText`, e `codeNames`. Cada objeto de foto de gato possui essas mesmas chaves, mas com valores diferentes.**
+
+**Outro "par de valores-chave" interessante no primeiro objeto é `"codeNames":["Juggernaut","Mrs. Wallace","ButterCup"]`. Aqui `codeNames`está a chave e seu valor é uma matriz de três strings. É possível ter matrizes de objetos, bem como uma chave com uma matriz como valor.**
+
+**Lembre-se de como acessar dados em matrizes e objetos. Os arrays usam a notação de colchetes para acessar um índice específico de um item. Os objetos usam colchetes ou notação de ponto para acessar o valor de uma determinada propriedade. Aqui está um exemplo que imprime a `altText`propriedade da primeira foto de gato - observe que os dados JSON analisados no editor são salvos em uma variável chamada `json`:**
+
+```
+console.log(json[0].altText);
+
+```
+
+**O console exibiria a string `A white cat wearing a green helmet shaped melon on its head.`.**
+
+---
+
+**Para o gato com o `id`de 2, imprima no console o segundo valor na `codeNames`matriz. Você deve usar colchetes e notação de ponto no objeto (que é salvo na variável `json`) para acessar o valor.**
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function(){
+
+document.getElementById('getMessage').onclick = function(){
+
+const req = new XMLHttpRequest();
+
+req.open("GET",'/json/cats.json', true);
+
+req.send();
+
+req.onload=function(){
+
+const json = JSON.parse(req.responseText);
+
+document.getElementsByClassName('message')[0].innerHTML = JSON.stringify(json);
+
+// Add your code below this line
+
+console.log(json[2].codeNames[1])
+
+// Add your code above this line
+
+};
+
+};
+
+});
+
+</script>
+
+<style>
+
+body {
+
+text-align: center;
+
+font-family: "Helvetica", sans-serif;
+
+}
+
+h1 {
+
+font-size: 2em;
+
+font-weight: bold;
+
+}
+
+.box {
+
+border-radius: 5px;
+
+background-color: #eee;
+
+padding: 20px 5px;
+
+}
+
+button {
+
+color: white;
+
+background-color: #4791d0;
+
+border-radius: 5px;
+
+border: 1px solid #4791d0;
+
+padding: 5px 10px 8px 10px;
+
+}
+
+button:hover {
+
+background-color: #0F5897;
+
+border: 1px solid #0F5897;
+
+}
+
+</style>
+
+<h1>Cat Photo Finder</h1>
+
+<p class="message box">
+
+The message will go here
+
+</p>
+
+<p>
+
+<button id="getMessage">
+
+Get Message
+
+</button>
+
+</p>
+
+**Converter dados JSON em HTML**
+
+**Agora que você está obtendo dados de uma API JSON, pode exibi-los no HTML.**
+
+**Você pode usar um `forEach`método para percorrer os dados, uma vez que os objetos da foto do gato são mantidos em uma matriz. Conforme você chega a cada item, pode modificar os elementos HTML.**
+
+**Primeiro, declare uma variável html com `let html = "";`.**
+
+**Em seguida, faça um loop no JSON, adicionando HTML à variável que envolve os nomes-chave nas `strong`tags, seguido pelo valor. Quando o loop terminar, você o renderiza.**
+
+**Este é o código que faz isso:**
+
+```
+let html = "";
+json.forEach(function(val) {
+  const keys = Object.keys(val);
+  html += "<div class = 'cat'>";
+  keys.forEach(function(key) {
+    html += "<strong>" + key + "</strong>: " + val[key] + "<br>";
+  });
+  html += "</div><br>";
+});
+
+```
+
+**Nota: Para este desafio, você precisa adicionar novos elementos HTML à página, então você não pode confiar `textContent`. Em vez disso, você precisa usar o `innerHTML`, o que pode tornar um site vulnerável a ataques de script entre sites.**
+
+---
+
+**Adicione um `forEach`método para repetir os dados JSON e crie os elementos HTML para exibi-los.**
+
+**Aqui está um exemplo de JSON:**
+
+```
+[
+  {
+    "id":0,
+      "imageLink":"https://s3.amazonaws.com/freecodecamp/funny-cat.jpg",
+      "altText":"A white cat wearing a green helmet shaped melon on its head. ",
+      "codeNames":[ "Juggernaut", "Mrs. Wallace", "Buttercup"
+    ]
+  }
+]
+```
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function(){
+
+document.getElementById('getMessage').onclick = function(){
+
+const req = new XMLHttpRequest();
+
+req.open("GET",'/json/cats.json',true);
+
+req.send();
+
+req.onload = function(){
+
+const json = JSON.parse(req.responseText);
+
+let html = "";
+
+// Add your code below this line
+
+json.forEach(function(val){
+
+const keys = Object.keys(val);
+
+html +="<div class = 'cat'>";
+
+keys.forEach(function(key){
+
+html += "<strong>" + key + "</strong>:" + val[key] + "<br>";
+
+})
+
+html += "</div><br>";
+
+})
+
+// Add your code above this line
+
+document.getElementsByClassName('message')[0].innerHTML = html;
+
+};
+
+};
+
+});
+
+</script>
+
+<style>
+
+body {
+
+text-align: center;
+
+font-family: "Helvetica", sans-serif;
+
+}
+
+h1 {
+
+font-size: 2em;
+
+font-weight: bold;
+
+}
+
+.box {
+
+border-radius: 5px;
+
+background-color: #eee;
+
+padding: 20px 5px;
+
+}
+
+button {
+
+color: white;
+
+background-color: #4791d0;
+
+border-radius: 5px;
+
+border: 1px solid #4791d0;
+
+padding: 5px 10px 8px 10px;
+
+}
+
+button:hover {
+
+background-color: #0F5897;
+
+border: 1px solid #0F5897;
+
+}
+
+</style>
+
+<h1>Cat Photo Finder</h1>
+
+<p class="message box">
+
+The message will go here
+
+</p>
+
+<p>
+
+<button id="getMessage">
+
+Get Message
+
+</button>
+
+</p>
+
+**Renderizar imagens de fontes de dados**
+
+**Os últimos desafios mostraram que cada objeto na matriz JSON contém uma `imageLink`chave com um valor que é o URL da imagem de um gato.**
+
+**Ao percorrer esses objetos, você pode usar esta `imageLink`propriedade para exibir esta imagem em um `img`elemento.**
+
+**Este é o código que faz isso:**
+
+```
+html += "<img src = '" + val.imageLink + "' " + "alt='" + val.altText + "'>";
+
+```
+
+---
+
+**Adicione o código para usar as propriedades `imageLink`e `altText`em uma `img`tag.**
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function(){
+
+document.getElementById('getMessage').onclick = function(){
+
+const req=new XMLHttpRequest();
+
+req.open("GET",'/json/cats.json',true);
+
+req.send();
+
+req.onload = function(){
+
+const json = JSON.parse(req.responseText);
+
+let html = "";
+
+json.forEach(function(val) {
+
+html += "<div class = 'cat'>";
+
+// Add your code below this line
+
+html += "<img src = '" + val.imageLink + "' " + "alt='" + val.altText + "'>";
+
+// Add your code above this line
+
+html += "</div><br>";
+
+});
+
+document.getElementsByClassName('message')[0].innerHTML=html;
+
+};
+
+};
+
+});
+
+</script>
+
+<style>
+
+body {
+
+text-align: center;
+
+font-family: "Helvetica", sans-serif;
+
+}
+
+h1 {
+
+font-size: 2em;
+
+font-weight: bold;
+
+}
+
+.box {
+
+border-radius: 5px;
+
+background-color: #eee;
+
+padding: 20px 5px;
+
+}
+
+button {
+
+color: white;
+
+background-color: #4791d0;
+
+border-radius: 5px;
+
+border: 1px solid #4791d0;
+
+padding: 5px 10px 8px 10px;
+
+}
+
+button:hover {
+
+background-color: #0F5897;
+
+border: 1px solid #0F5897;
+
+}
+
+</style>
+
+<h1>Cat Photo Finder</h1>
+
+<p class="message box">
+
+The message will go here
+
+</p>
+
+<p>
+
+<button id="getMessage">
+
+Get Message
+
+</button>
+
+</p>
+
+**Pré-filtre JSON para obter os dados de que você precisa**
+
+**Se você não quiser renderizar todas as fotos de gato obtidas com a API de fotos de gatos freeCodeCamp, pode pré-filtrar o JSON antes de fazer um loop por ele.**
+
+**Dado que os dados JSON são armazenados em uma matriz, você pode usar o `filter`método para filtrar o cat cuja `id`chave tem um valor de `1`.**
+
+**Aqui está o código para fazer isso:**
+
+```
+json = json.filter(function(val) {
+  return (val.id !== 1);
+});
+
+```
+
+---
+
+**Adicione o código aos `filter`dados json para remover o gato com o `id`valor de `1`.**
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function(){
+
+document.getElementById('getMessage').onclick = function(){
+
+const req = new XMLHttpRequest();
+
+req.open("GET",'/json/cats.json', true);
+
+req.send();
+
+req.onload=function(){
+
+let json = JSON.parse(req.responseText);
+
+let html = "";
+
+// Add your code below this line
+
+json = json.filter(function(val){
+
+return (val.id === 1);
+
+})
+
+// Add your code above this line
+
+json.forEach(function(val) {
+
+html += "<div class = 'cat'>"
+
+html += "<img src = '" + val.imageLink + "' " + "alt='" + val.altText + "'>"
+
+html += "</div>"
+
+});
+
+document.getElementsByClassName('message')[0].innerHTML = html;
+
+};
+
+};
+
+});
+
+</script>
+
+<style>
+
+body {
+
+text-align: center;
+
+font-family: "Helvetica", sans-serif;
+
+}
+
+h1 {
+
+font-size: 2em;
+
+font-weight: bold;
+
+}
+
+.box {
+
+border-radius: 5px;
+
+background-color: #eee;
+
+padding: 20px 5px;
+
+}
+
+button {
+
+color: white;
+
+background-color: #4791d0;
+
+border-radius: 5px;
+
+border: 1px solid #4791d0;
+
+padding: 5px 10px 8px 10px;
+
+}
+
+button:hover {
+
+background-color: #0F5897;
+
+border: 1px solid #0F5897;
+
+}
+
+</style>
+
+<h1>Cat Photo Finder</h1>
+
+<p class="message box">
+
+The message will go here
+
+</p>
+
+<p>
+
+<button id="getMessage">
+
+Get Message
+
+</button>
+
+</p>
+
+**Obtenha dados de geolocalização para encontrar as coordenadas GPS de um usuário**
+
+**Outra coisa legal que você pode fazer é acessar a localização atual do seu usuário. Cada navegador possui um navegador integrado que pode fornecer essas informações.**
+
+**O navegador obterá a longitude e latitude atuais do usuário.**
+
+**Você verá um aviso para permitir ou bloquear este site de saber sua localização atual. O desafio pode ser concluído de qualquer maneira, desde que o código esteja correto.**
+
+**Ao selecionar permitir, você verá o texto no telefone de saída mudar para sua latitude e longitude.**
+
+**Este é o código que faz isso:**
+
+```
+if (navigator.geolocation){
+  navigator.geolocation.getCurrentPosition(function(position) {
+    document.getElementById('data').innerHTML="latitude: " + position.coords.latitude + "<br>longitude: " + position.coords.longitude;
+  });
+}
+
+```
+
+**Primeiro, ele verifica se o `navigator.geolocation`objeto existe. Em caso afirmativo, o `getCurrentPosition`método nesse objeto é chamado, o que inicia uma solicitação assíncrona para a posição do usuário. Se a solicitação for bem-sucedida, a função de retorno de chamada no método será executada. Esta função acessa os `position`valores do objeto para latitude e longitude usando a notação de ponto e atualiza o HTML.**
+
+---
+
+**Adicione o código de exemplo dentro das `script`tags para verificar a localização atual de um usuário e insira-o no HTML.**
+
+<script>
+
+// Add your code below this line
+
+if(navigator.geolocation){
+
+navigator.geolocation.getCurrentPosition(function(position){
+
+document.getElementById('data').innerHTML="latitude "+ position.coords.latitude + "<br>longitude: " + position.coords.longitude;
+
+})
+
+}
+
+// Add your code above this line
+
+</script>
+
+<h4>You are here:</h4>
+
+<div id="data">
+
+</div>
+
+**Postar dados com o método JavaScript XMLHttpRequest**
+
+**Nos exemplos anteriores, você recebeu dados de um recurso externo. Você também pode enviar dados para um recurso externo, desde que esse recurso suporte solicitações AJAX e você conheça a URL.**
+
+**O `XMLHttpRequest`método JavaScript também é usado para postar dados em um servidor. Aqui está um exemplo:**
+
+```
+const xhr = new XMLHttpRequest();
+xhr.open('POST', url, true);
+xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+xhr.onreadystatechange = function () {
+  if (xhr.readyState === 4 && xhr.status === 201){
+    const serverResponse = JSON.parse(xhr.response);
+    document.getElementsByClassName('message')[0].textContent = serverResponse.userName + serverResponse.suffix;
+  }
+};
+const body = JSON.stringify({ userName: userName, suffix: ' loves cats!' });
+xhr.send(body);
+
+```
+
+**Você já viu vários desses métodos antes. Aqui, o `open`método inicializa a solicitação como um `POST`para a URL fornecida do recurso externo e usa o `true`Booleano para torná-la assíncrona. O `setRequestHeader`método define o valor de um cabeçalho de solicitação HTTP, que contém informações sobre o remetente e a solicitação. Deve ser chamado depois do `open`método, mas antes do `send`método. Os dois parâmetros são o nome do cabeçalho e o valor a ser definido como corpo desse cabeçalho. Em seguida, o `onreadystatechange`ouvinte de eventos trata de uma mudança no estado da solicitação. Um `readyState`de `4`significa que a operação foi concluída e um `status`de `201`significa que foi uma solicitação bem-sucedida. O HTML do documento pode ser atualizado. finalmente, o`send`método envia a solicitação com o `body`valor, cuja `userName`chave foi fornecida pelo usuário no `input`campo.**
+
+---
+
+**Atualize o código para que ele faça uma `POST`solicitação ao endpoint da API. Em seguida, digite seu nome no campo de entrada e clique em `Send Message`. Sua função AJAX deve ser substituída `Reply from Server will be here.`pelos dados do servidor. Formate a resposta para exibir seu nome junto com o texto `loves cats`.**
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function(){
+
+document.getElementById('sendMessage').onclick = function(){
+
+const userName = document.getElementById('name').value;
+
+const url = 'https://jsonplaceholder.typicode.com/posts';
+
+// Add your code below this line
+
+const xhr = new XMLHttpRequest();
+
+xhr.open('POST', url, true);
+
+xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+
+xhr.onreadystatechange = function () {
+
+if (xhr.readyState === 4 && xhr.status === 201){
+
+const serverResponse = JSON.parse(xhr.response);
+
+document.getElementsByClassName('message')[0].textContent = serverResponse.userName + serverResponse.suffix;
+
+}
+
+};
+
+const body = JSON.stringify({ userName: userName, suffix: ' loves cats!' });
+
+xhr.send(body);
+
+// Add your code above this line
+
+};
+
+});
+
+</script>
+
+<style>
+
+body {
+
+text-align: center;
+
+font-family: "Helvetica", sans-serif;
+
+}
+
+h1 {
+
+font-size: 2em;
+
+font-weight: bold;
+
+}
+
+.box {
+
+border-radius: 5px;
+
+background-color: #eee;
+
+padding: 20px 5px;
+
+}
+
+button {
+
+color: white;
+
+background-color: #4791d0;
+
+border-radius: 5px;
+
+border: 1px solid #4791d0;
+
+padding: 5px 10px 8px 10px;
+
+}
+
+button:hover {
+
+background-color: #0F5897;
+
+border: 1px solid #0F5897;
+
+}
+
+</style>
+
+<h1>Cat Friends</h1>
+
+<p class="message box">
+
+Reply from Server will be here
+
+</p>
+
+<p>
+
+<label for="name">Your name:
+
+<input type="text" id="name"/>
+
+</label>
+
+<button id="sendMessage">
+
+Send Message
+
+</button>
+
+</p>
